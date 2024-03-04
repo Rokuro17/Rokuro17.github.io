@@ -44,5 +44,5 @@ body {
   text-align: center; /* Center text*/
   border: 2px solid #cccccc; /* Grey background */
   border-radius: 5px;
-  box-shadow: 2px wpx 2px darkslategrey;
+  box-shadow: 2px 2px 2px darkslategrey;
 }
