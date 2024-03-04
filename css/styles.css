@@ -28,7 +28,7 @@ body {
 
 /* Change the color of links on hover */
 .topnav a:hover {
-  background-color: #32343c;
+  background-color: #7d8295;
   color: black;
 }
 
@@ -41,5 +41,5 @@ body {
 .footer {
   padding: 20px; /* Some padding */
   text-align: center; /* Center text*/
-  background: #32343c; /* Grey background */
+  background: #7d8295; /* Grey background */
 }
