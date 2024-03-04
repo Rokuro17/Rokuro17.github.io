@@ -41,10 +41,15 @@ body {
 }
 
 .footer {
+  position: fixed;
   padding: 5px; /* Some padding */
   text-align: center; /* Center text*/
   background-color: transparent;
   border: 2px solid #cccccc; /* Grey background */
   border-radius: 5px;
   box-shadow: 2px 2px 2px darkslategrey;
+}
+.footer.fixed {
+  position: fixed;
+  bottom: 0;
 }
