@@ -11,7 +11,7 @@ body {
 
 /* Add a black background color to the top navigation */
 .topnav {
-  background-color: #7d8295;
+  background-color: #cccccc;
   overflow: hidden;
   border-radius: 5px;
 }
@@ -19,7 +19,7 @@ body {
 /* Style the links inside the navigation bar */
 .topnav a {
   float: left;
-  color: white;
+  color: black;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -28,7 +28,7 @@ body {
 
 /* Change the color of links on hover */
 .topnav a:hover {
-  background-color: #7d8295;
+  background-color: #cccccc;
   color: black;
 }
 
@@ -41,6 +41,6 @@ body {
 .footer {
   padding: 5px; /* Some padding */
   text-align: center; /* Center text*/
-  background: #7d8295; /* Grey background */
+  background: #cccccc; /* Grey background */
   border-radius: 5px;
 }
