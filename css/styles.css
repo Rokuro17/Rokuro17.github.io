@@ -15,7 +15,10 @@ body {
   overflow: hidden;
   border-radius: 5px;
   box-shadow: 2px 2px 2px darkslategrey;
-  background-color: transparent;
+  background-color: white;
+  position: -webkit-sticky; /*Safari only*/
+  position: sticky;
+  top: 0;
 }
 
 /* Style the links inside the navigation bar */
@@ -41,15 +44,11 @@ body {
 }
 
 .footer {
-  position: fixed;
-  padding: 5px; /* Some padding */
   text-align: center; /* Center text*/
+  padding-left: 5em;
+  padding-right: 5em;
   background-color: transparent;
   border: 2px solid #cccccc; /* Grey background */
   border-radius: 5px;
   box-shadow: 2px 2px 2px darkslategrey;
-}
-.footer.fixed {
-  position: fixed;
-  bottom: 0;
 }
