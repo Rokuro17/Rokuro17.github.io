@@ -42,4 +42,5 @@ body {
   padding: 20px; /* Some padding */
   text-align: center; /* Center text*/
   background: #7d8295; /* Grey background */
+  border-radius: 5px;
 }
