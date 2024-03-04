@@ -14,7 +14,7 @@ body {
   border: 2px solid #cccccc;
   overflow: hidden;
   border-radius: 5px;
-  box-shadow: 1px 1px 2px darkslategrey;
+  box-shadow: 2px 2px 2px darkslategrey;
 }
 
 /* Style the links inside the navigation bar */
@@ -42,7 +42,7 @@ body {
 .footer {
   padding: 5px; /* Some padding */
   text-align: center; /* Center text*/
-  background: #cccccc; /* Grey background */
+  border: 2px solid #cccccc; /* Grey background */
   border-radius: 5px;
-  box-shadow: 1px 1px 2px darkslategrey;
+  box-shadow: 2px wpx 2px darkslategrey;
 }
