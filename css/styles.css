@@ -1,7 +1,24 @@
+/* <uniquifier>: Use a unique and descriptive class name*/
+/* <weight>: Use a value from 100 to 900*/
+
+.montserrat-regular {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.montserrat-bold {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 800;
+  font-style: normal;
+}
+
 body {
-    background-color: white;
+    background-color: #282828;
     font-family: sans-serif;
-    color: black;
+    color: white;
 }
 
 .header {
@@ -11,11 +28,11 @@ body {
 
 /* Add a black background color to the top navigation */
 .topnav {
-  border: 2px solid #cccccc;
+  border: 2px solid #ffd000;
   overflow: hidden;
-  border-radius: 5px;
-  box-shadow: 2px 2px 2px darkslategrey;
-  background-color: white;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px #1f1f1f;
+  background-color: #282828;
   position: -webkit-sticky; /*Safari only*/
   position: sticky;
   top: 0;
@@ -24,7 +41,7 @@ body {
 /* Style the links inside the navigation bar */
 .topnav a {
   float: left;
-  color: black;
+  color: white;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -33,22 +50,37 @@ body {
 
 /* Change the color of links on hover */
 .topnav a:hover {
-  background-color: #cccccc;
+  background-color: #ffd000;
   color: black;
 }
 
 /* Add a color to the active/current link */
 .topnav a.active {
-  background-color: #fff100;
+  background-color: #ffd000;
   color: black;
 }
 
-.footer {
+footer {
   text-align: center; /* Center text*/
   padding-left: 5em;
   padding-right: 5em;
-  background-color: transparent;
-  border: 2px solid #cccccc; /* Grey background */
-  border-radius: 5px;
-  box-shadow: 2px 2px 2px darkslategrey;
+}
+
+footer h2 {
+  font-size: 2em;
+}
+
+footer .social-media {
+  list-style-type: none;
+  font-size: 1.2em;
+  display: inline; /* Add this line */
+}
+
+footer .social-media i {
+  color: #ffd000;
+}
+
+footer .social-media a {
+  color: white;
+  text-decoration: none;
 }
