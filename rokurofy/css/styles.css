@@ -161,7 +161,7 @@ button {
     animation: pulse 2s infinite;
 }
 
-@media (max-width: 108px) {
+@media (orientation: portrait) {
     #main {
         grid-template-rows: 50% 1fr 20%;
     }
