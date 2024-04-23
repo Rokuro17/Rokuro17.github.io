@@ -162,7 +162,7 @@ function setSong(index) {
   function setSeeker() {
     audio.addEventListener("timeupdate", updateSeeker);
   }
-  // Convert time to minutes and seconds so you can dislplay on page
+  // Convert time to minutes and seconds so you can display on page
   function convertTime(time) {
     // time is already in seconds so there is no need to calculate secinds
     let secs = Math.floor(time);
@@ -209,23 +209,103 @@ function setSong(index) {
     setSeeker();
   })
   
-  // mousedown event occurs when a user presses the mouse button on an event
-  slider_nob.addEventListener("mousedown", (e) => {
+// mousedown event occurs when a user presses the mouse button on an event
+slider_nob.addEventListener("mousedown", (e) => {
     e.preventDefault();
     audio.removeEventListener("timeupdate", updateSeeker);
-  
+
     // Get the starting position of the cursor
     startPos = e.clientX;
-  
+
     // mousemove event occurs when a user moves their mouse
     document.addEventListener("mousemove", moveObj);
-  
+
     // mouseup occurs when a user releases the mouse button
     document.addEventListener("mouseup", () => {
-       document.removeEventListener("mousemove", moveObj);
-       audio.addEventListener("timeupdate", updateSeeker);
+        document.removeEventListener("mousemove", moveObj);
+        audio.addEventListener("timeupdate", updateSeeker);
     })
-  })
+})
+
+// Eventos táctiles para dispositivos móviles
+slider_nob.addEventListener("touchstart", (e) => {
+   e.preventDefault();
+   audio.removeEventListener("timeupdate", updateSeeker);
+
+   // Get the starting position of the touch
+   startPos = e.touches[0].clientX;
+
+   // touchmove event occurs when a user moves their finger across the screen
+   document.addEventListener("touchmove", moveObj);
+
+   // touchend occurs when a user lifts their finger off of the screen
+   document.addEventListener("touchend", () => {
+       document.removeEventListener("touchmove", moveObj);
+       audio.addEventListener("timeupdate", updateSeeker);
+   })
+})
+
+// Añadir evento de clic al slider
+grey_slider.addEventListener("click", (e) => {
+    let rect = grey_slider.getBoundingClientRect();
+    let x = e.clientX - rect.left; // posición x del clic relativa al slider
+    let width = rect.right - rect.left; // ancho del slider
+    let percentage = x / width; // porcentaje del slider donde se hizo clic
+    let newTime = percentage * duration; // nuevo tiempo de la canción
+
+    // establecer el nuevo tiempo de la canción
+    audio.currentTime = newTime;
+
+    // actualizar el seeker y el slider
+    updateSeeker();
+});
+
+// Añadir evento de arrastre al slider_nob
+slider_nob.addEventListener("mousemove", (e) => {
+    if(e.buttons === 1) { // Si el botón izquierdo del ratón está presionado
+        let rect = grey_slider.getBoundingClientRect();
+        let x = e.clientX - rect.left; // posición x del clic relativa al slider
+        let width = rect.right - rect.left; // ancho del slider
+        let percentage = x / width; // porcentaje del slider donde se hizo clic
+        let newTime = percentage * duration; // nuevo tiempo de la canción
+
+        // establecer el nuevo tiempo de la canción
+        audio.currentTime = newTime;
+
+        // actualizar el seeker y el slider
+        updateSeeker();
+    }
+});
+
+// Añadir evento de toque al slider
+grey_slider.addEventListener("touchstart", (e) => {
+   let rect = grey_slider.getBoundingClientRect();
+   let x = e.touches[0].clientX - rect.left; // posición x del toque relativa al slider
+   let width = rect.right - rect.left; // ancho del slider
+   let percentage = x / width; // porcentaje del slider donde se tocó
+   let newTime = percentage * duration; // nuevo tiempo de la canción
+
+   // establecer el nuevo tiempo de la canción
+   audio.currentTime = newTime;
+
+   // actualizar el seeker y el slider
+   updateSeeker();
+});
+
+// Añadir evento de arrastre al slider_nob
+slider_nob.addEventListener("touchmove", (e) => {
+   let rect = grey_slider.getBoundingClientRect();
+   let x = e.touches[0].clientX - rect.left; // posición x del toque relativa al slider
+   let width = rect.right - rect.left; // ancho del slider
+   let percentage = x / width; // porcentaje del slider donde se tocó
+   let newTime = percentage * duration; // nuevo tiempo de la canción
+
+   // establecer el nuevo tiempo de la canción
+   audio.currentTime = newTime;
+
+   // actualizar el seeker y el slider
+   updateSeeker();
+});
   
   // Llamar a prepareNextSongs con la lista de canciones
    prepareNextSongs(songs);
