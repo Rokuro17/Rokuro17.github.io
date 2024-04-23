@@ -105,6 +105,45 @@ button {
     transform: translate(0, -5px);
 }
 
+#sidebar {
+    position: fixed;
+    right: -30%; /* Posiciona inicialmente la barra lateral fuera de la vista */
+    top: 0;
+    width: 20%;
+    height: 100%;
+    overflow: hidden;
+    transition: right 0.5s; /* Cambia la transición para que afecte a la propiedad 'right' */
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+}
+
+#sidebar.open {
+    right: 0; /* Cuando la barra lateral está abierta, 'right' es 0 */
+}
+
+#sidebar h2 {
+    margin: 0;
+    padding-bottom: 20px;
+}
+
+#sidebar ul {
+    list-style: none;
+}
+
+#sidebar ul li {
+    padding: 10px 0;
+    cursor: pointer;
+}
+
+#sidebar div {
+    cursor: pointer;
+}
+
+#sidebar div:hover {
+    color: rgb(255, 200, 0);
+}
+
 @keyframes pulse {
     0% {
         transform: scale(1);

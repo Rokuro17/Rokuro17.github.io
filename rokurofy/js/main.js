@@ -8,6 +8,7 @@ let fillbar = document.getElementById("fillbar");
 let audio_slider = document.getElementById("slider");
 let slider_nob = document.getElementById("slider-nob");
 let currentPos, newPos, startPos = 0;
+let shuffledSongs = [];
 
 //temporalmente hardcodeamos las canciones en el javascript
 let songs = [
@@ -67,17 +68,16 @@ let songs = [
     }
 ]
 
-
 function setSong(index) {
-    audio = new Audio(songs[index].url);
+    audio = new Audio(shuffledSongs[index].url);
     audio.addEventListener("loadeddata", () => {
        audio.controls = true;
        duration = audio.duration;
-       document.getElementById("song-name").innerHTML = songs[index].song_name;
-       document.getElementById("artist-name").innerHTML = songs[index].artist;
+       document.getElementById("song-name").innerHTML = shuffledSongs[index].song_name;
+       document.getElementById("artist-name").innerHTML = shuffledSongs[index].artist;
        document.getElementById("duration").innerHTML = convertTime(duration);
        var image = document.getElementById("album_cover")
-       image.src = songs[index].album_cover;
+       image.src = shuffledSongs[index].album_cover;
     })
   
     // Listen for when the song ends
@@ -86,41 +86,71 @@ function setSong(index) {
     })
   }
 
-  function nextSong() {
-   audio.pause();
-   current_song = Math.floor(Math.random() * songs.length);
-   setSong(current_song);
+   function prepareNextSongs(songs) {
+      // Crear una copia de la lista de canciones y mezclarla
+      shuffledSongs = [...songs];
+      shuffledSongs.sort(() => Math.random() - 0.5);
 
-   if (playing) {
+      // Obtener el elemento de la barra lateral donde se mostrará la cola
+      const sidebar = document.getElementById('sidebar');
+
+      // Limpiar la barra lateral
+      sidebar.innerHTML = '';
+
+      // Crear y añadir las canciones a la barra lateral
+      shuffledSongs.forEach((song, index) => {
+         const songElement = document.createElement('div');
+         songElement.textContent = `${index + 1}. ${song.song_name}`;
+         songElement.addEventListener('click', () => playSongAtIndex(index));
+         sidebar.appendChild(songElement);
+      });
+   }
+
+   function nextSong() {
+      audio.pause();
+      current_song = (current_song + 1) % shuffledSongs.length; // Avanzar a la siguiente canción
+      setSong(current_song);
+   
+      if (playing) {
       audio.play();
       setSeeker();
-   } else {
+      } else {
       fillbar.style.width = 0;
       slider_nob.style.left = 0;
+      }
    }
-}
 
+   function prevSong() {
+      audio.pause();
+    
+      if(current_song == 0) {
+        current_song = shuffledSongs.length - 1; // Si estamos en la primera canción, ir a la última
+      } else {
+        current_song--;
+      }
+      setSong(current_song);
+    
+      // if it was playing then automatically play the next song
+      if(playing) {
+        audio.play();
+        setSeeker();
+      } else {
+        fillbar.style.width = 0;
+        slider_nob.style.left = 0;
+      }
+    }
 
-  function prevSong() {
-    audio.pause();
-  
-    if(current_song == 0) {
-       current_song = songs.length - 1;
-    }else {
-       current_song--;
-    }
-    setSong(current_song);
-  
-    // if it was playing then automatically play the next song
-    if(playing) {
-       audio.play();
-       setSeeker();
-    } else {
-       fillbar.style.width = 0;
-       slider_nob.style.left = 0;
-    }
-  
-  }
+   function playSongAtIndex(index) {
+      if (index >= 0 && index < shuffledSongs.length) {
+         audio.pause();
+         current_song = index;
+         setSong(current_song);
+         audio.play();
+         setSeeker();
+      } else {
+         console.error('Índice fuera de rango');
+      }
+      }
 
   function updateSeeker() {
     document.getElementById("timeplayed").innerHTML = convertTime(audio.currentTime);
@@ -163,6 +193,9 @@ function setSong(index) {
      }
   }
   
+
+
+
   play_pause_btn.addEventListener("click", () => {
     if(!playing) {
        audio.play();
@@ -194,5 +227,6 @@ function setSong(index) {
     })
   })
   
-  
-  setSong(current_song);
+  // Llamar a prepareNextSongs con la lista de canciones
+   prepareNextSongs(songs);
+   setSong(current_song);
