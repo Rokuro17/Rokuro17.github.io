@@ -17,16 +17,20 @@
 
 body {
     color: #ffffff;
+    background-repeat:repeat ;
     padding: 0;
     margin: 0;
+    background-image:url("/img/r.svg");
+    background-color: rgb(75, 75, 75);
+    background-size: 15vh;
+    background-repeat: repeat 0 0;
 }
 
 #main {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     display: grid;
     grid-template-rows: 60% 1fr 15%;
-    background-image: linear-gradient(to bottom right,#000, 40%, rgb(255, 200, 0) );
 }
 
 #metadetails {
@@ -43,12 +47,25 @@ body {
     order: 1; /* Move #detail-text to the top */
 }
 
+#song_image img{
+    border: 5px solid rgb(255, 183, 0);
+    border-radius: 14px;
+    box-shadow: 5px 5px 5px rgb(76, 76, 76);
+}
+
 #album_cover {
     display: block;
     margin-left: auto;
     margin-right: auto;
     height: 40vh;
     margin-top: 2%; /* Add margin to separate from #detail-text */
+}
+
+#div-slider {
+    border: 5px solid rgb(255, 183, 0);
+    border-radius: 120px;
+    box-shadow: 10px 10px px rgb(40, 40, 40);
+    background-color: rgb(75, 75, 75);
 }
 
 #controls {
@@ -70,8 +87,38 @@ button {
     font-size: x-large;
     color: #000;
     margin: 2%;
+    width: 80px;
+    height: 80px;
+}
+
+#previous {
+    background-color: #ffffff;
+    border-radius: 50rem;
+    font-size: x-large;
+    color: #000;
+    margin: 2%;
     width: 60px;
     height: 60px;
+}
+
+#next {
+    background-color: #ffffff;
+    border-radius: 50rem;
+    font-size: x-large;
+    color: #000;
+    margin: 2%;
+    width: 60px;
+    height: 60px;
+}
+
+#queue {
+    background-color: #ffffff;
+    border-radius: 50rem;
+    font-size: large;
+    color: #000;
+    margin: 2%;
+    width: 40px;
+    height: 40px;
 }
   
 #div-slider {
@@ -157,13 +204,14 @@ button {
 }
 
 #play {
-    background-color: rgba(255, 255, 255, 0.4);
+    background-color: #ffffff;
     animation: pulse 2s infinite;
 }
 
 @media (max-width: 108px) {
     #main {
         grid-template-rows: 50% 1fr 20%;
+        height: 100%;
     }
 
     #details {
@@ -174,6 +222,12 @@ button {
     #detail-text {
         text-align: center;
         order: 1; /* Move #detail-text to the top */
+    }
+
+    #song_image img{
+        border: 2px solid rgb(255, 183, 0);
+        border-radius: 14px;
+        box-shadow: 5px 5px 5px rgb(76, 76, 76);
     }
 
     #album_cover {

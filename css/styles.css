@@ -20,3 +20,64 @@ a {
     color: rgb(255, 191, 0);
     text-decoration: none;
 }
+
+.wrapper {
+  /*This part is important for centering*/
+  display: grid;
+  place-items: center;
+}
+
+.typing-title {
+  width: 10ch;
+  animation: typing 1.2s steps(5), blink .6s step-end infinite alternate;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid;
+}
+
+@keyframes typing {
+  from {
+    width: 0
+  }
+}
+    
+@keyframes blink {
+  50% {
+    border-color: transparent
+  }
+}
+
+.contact-links {
+    display: flex;
+    justify-content: right;
+    margin-top: 2%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.contact-links a {
+    margin: 0 1%;
+    font-size: 3vh;
+    transition: all ease 0.5s;
+}
+
+.contact-links a:hover {
+    transform: scale(1.2);
+}
+
+.card {
+  margin: 2%;
+  padding: 2%;
+  border: 2px solid rgb(255, 191, 0);
+  border-radius: 15px;
+}
+
+footer {
+    background-color: rgb(34, 40, 46);
+    color: white;
+    text-align: center;
+    padding: 2%;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
