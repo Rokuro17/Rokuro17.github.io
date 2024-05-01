@@ -2,55 +2,169 @@
     {
         "song_name": "edamame",
         "artist": "bbno$, Rich Brian",
-        "url": "/rokurofy/songs/edamame.flac",
+        "url": "/rokurofy/songs/edamame.mp3",
         "album_cover": "/rokurofy/img/edamame.jpeg"
     },
     {
         "song_name": "It Is What It Is",
         "artist": "Jenna Raine",
-        "url": "/rokurofy/songs/it_is_what_it_is.flac",
+        "url": "/rokurofy/songs/it_is_what_it_is.mp3",
         "album_cover": "/rokurofy/img/it_is_what_it_is.jpeg"
     },
     {
         "song_name": "Numb Little Bug",
         "artist": "Em Beihold",
-        "url": "/rokurofy/songs/numb_little_bug.flac",
+        "url": "/rokurofy/songs/numb_little_bug.mp3",
         "album_cover": "/rokurofy/img/numb_little_bug.jpeg"
     },
     {
         "song_name": "Guilty Pleasures",
         "artist": "Confetti",
-        "url": "/rokurofy/songs/guilty_pleasures.flac",
+        "url": "/rokurofy/songs/guilty_pleasures.mp3",
         "album_cover": "/rokurofy/img/guilty_pleasures.jpeg"
     },
     {
-        "song_name": "Bling-Bang-Bang-Born",
+        "song_name": "Bling Bang Bang Born",
         "artist": "Creepy Nuts",
-        "url": "/rokurofy/songs/bling_bang_bang_born.flac",
+        "url": "/rokurofy/songs/bling_bang_bang_born.mp3",
         "album_cover": "/rokurofy/img/bling_bang_bang_born.jpeg"
     },
     {
         "song_name": "Soldier, Poet, King",
         "artist": "The Oh Hellos",
-        "url": "/rokurofy/songs/solider_poet_king.flac",
+        "url": "/rokurofy/songs/soldier_poet_king.mp3",
         "album_cover": "/rokurofy/img/soldier_poet_king.jpeg"
     },
     {
         "song_name": "Hazel Eyes",
         "artist": "Sabrina Jordan",
-        "url": "/rokurofy/songs/hazel_eyes.flac",
+        "url": "/rokurofy/songs/hazel_eyes.mp3",
         "album_cover": "/rokurofy/img/hazel_eyes.webp"
     },
     {
         "song_name": "PERCEPTION CHECK",
         "artist": "Tom Cardy",
-        "url": "/rokurofy/songs/perception_check.flac",
+        "url": "/rokurofy/songs/perception_check.mp3",
         "album_cover": "/rokurofy/img/perception_check.jpeg"
     },
     {
         "song_name": "Bang!",
         "artist": "AJR",
-        "url": "/rokurofy/songs/bang.flac",
+        "url": "/rokurofy/songs/bang.mp3",
         "album_cover": "/rokurofy/img/bang.jpeg"
+    },
+    {
+        "song_name": "legroom",
+        "artist": "Adán Díaz",
+        "url": "/rokurofy/songs/legroom.mp3",
+        "album_cover": "/rokurofy/img/legroom.jpeg"
+    },
+    {
+        "song_name": "baby",
+        "artist": "again&again",
+        "url": "/rokurofy/songs/baby.mp3",
+        "album_cover": "/rokurofy/img/baby.jpeg"
+    },
+    {
+        "song_name": "Bread",
+        "artist": "Anya Nami",
+        "url": "/rokurofy/songs/bread.mp3",
+        "album_cover": "/rokurofy/img/bread.jpeg"
+    },
+    {
+        "song_name": "Toxic",
+        "artist": "Boy with Uke",
+        "url": "/rokurofy/songs/toxic.mp3",
+        "album_cover": "/rokurofy/img/toxic.jpeg"
+    },
+    {
+        "song_name": "Lollipop",
+        "artist": "Charlie Curtis-Beard",
+        "url": "/rokurofy/songs/lollipop.mp3",
+        "album_cover": "/rokurofy/img/lollipop.jpeg"
+    },
+    {
+        "song_name": "Not Angry",
+        "artist": "Chris James",
+        "url": "/rokurofy/songs/not_angry.mp3",
+        "album_cover": "/rokurofy/img/not_angry.jpeg"
+    },
+    {
+        "song_name": "Ghost",
+        "artist": "Confetti",
+        "url": "/rokurofy/songs/ghost.mp3",
+        "album_cover": "/rokurofy/img/ghost.jpeg"
+    },
+    {
+        "song_name": "Song 2",
+        "artist": "Crypto",
+        "url": "/rokurofy/songs/song_2.mp3",
+        "album_cover": "/rokurofy/img/song_2.jpeg"
+    },
+    {
+        "song_name": "3 Nights",
+        "artist": "Dominic Fike",
+        "url": "/rokurofy/songs/3_nights.mp3",
+        "album_cover": "/rokurofy/img/3_nights.jpeg"
+    },
+    {
+        "song_name": "Levitating",
+        "artist": "Dua Lipa",
+        "url": "/rokurofy/songs/levitating.mp3",
+        "album_cover": "/rokurofy/img/levitating.jpeg"
+    },
+    {
+        "song_name": "take care",
+        "artist": "Elijah Woods",
+        "url": "/rokurofy/songs/take_care.mp3",
+        "album_cover": "/rokurofy/img/take_care.jpeg"
+    },
+    {
+        "song_name": "Sunkissed",
+        "artist": "Khai Dreams",
+        "url": "/rokurofy/songs/sunkissed.mp3",
+        "album_cover": "/rokurofy/img/sunkissed.jpeg"
+    },
+    {
+        "song_name": "Happy",
+        "artist": "Kyle Hume",
+        "url": "/rokurofy/songs/happy.mp3",
+        "album_cover": "/rokurofy/img/happy.jpeg"
+    },
+    {
+        "song_name": "Gasoline",
+        "artist": "Nic D, Connor Price",
+        "url": "/rokurofy/songs/gasoline.mp3",
+        "album_cover": "/rokurofy/img/gasoline.jpeg"
+    },
+    {
+        "song_name": "I Should Have Stayed At Home",
+        "artist": "Ryan Mack",
+        "url": "/rokurofy/songs/i_should_have_stayed_at_home.mp3",
+        "album_cover": "/rokurofy/img/i_should_have_stayed_at_home.jpeg"
+    },
+    {
+        "song_name": "Only Human",
+        "artist": "Ryan Mack",
+        "url": "/rokurofy/songs/only_human.mp3",
+        "album_cover": "/rokurofy/img/only_human.jpeg"
+    },
+    {
+        "song_name": "Overwhelmed",
+        "artist": "Ryan Mack",
+        "url": "/rokurofy/songs/overwhelmed.mp3",
+        "album_cover": "/rokurofy/img/overwhelmed.jpeg"
+    },
+    {
+        "song_name": "Blur",
+        "artist": "Stellar",
+        "url": "/rokurofy/songs/blur.mp3",
+        "album_cover": "/rokurofy/img/blur.jpeg"
+    },
+    {
+        "song_name": "rocket science",
+        "artist": "Vault Boy",
+        "url": "/rokurofy/songs/rocket_science.mp3",
+        "album_cover": "/rokurofy/img/rocket_science.jpeg"
     }
 ]
