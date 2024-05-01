@@ -114,10 +114,6 @@ header span {
     margin-left: 10%;
 }
 
-body {
-    overflow: hidden;
-}
-
 @media (orientation: portrait) {
 
     #results {
