@@ -107,9 +107,25 @@
                 artist.textContent = song.artist;
                 playerContainer.appendChild(artist);
 
+                // Crear el indicador de carga
+                const loadingIndicator = document.createElement('div');
+                loadingIndicator.textContent = 'Cargando...';
+                playerContainer.appendChild(loadingIndicator);
+
                 // Crear el elemento de audio
                 const audio = document.createElement('audio');
                 audio.src = song.url;
+
+                // Mostrar el indicador de carga mientras la canción se está cargando
+                audio.addEventListener('loadstart', () => {
+                    loadingIndicator.style.display = 'block';
+                });
+
+                // Ocultar el indicador de carga cuando la canción esté lista para reproducirse
+                audio.addEventListener('canplaythrough', () => {
+                    loadingIndicator.style.display = 'none';
+                });
+
                 playerContainer.appendChild(audio);
 
                 audio.play();
