@@ -1,0 +1,189 @@
+.montserrat-normal {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+  
+.montserrat-bold {
+      font-family: "Montserrat", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 800;
+      font-style: normal;
+}
+
+body {
+    background-color: #333;
+}
+
+header {
+    background-color: #333;
+    padding: 10px 0;
+    text-align: center;
+    align-items: center;
+}
+
+header span {
+    color: #fff;
+    font-size: 24px;
+}
+
+#search {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+    margin-left: 15%;
+    width: 70%; /* Ajusta este valor según tus necesidades */
+    height: 50px; /* Ajusta este valor según tus necesidades */
+}
+
+#search input {
+    width: 90%; /* Ajusta este valor según tus necesidades */
+    height: 55%; /* Ajusta este valor según tus necesidades */
+    margin-right: 1%;
+    padding: 10px;
+    border: 1px solid #111;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#search button {
+    width: 10%; /* Ajusta este valor según tus necesidades */
+    height: 50px; /* Ajusta este valor según tus necesidades */
+    background-color: #111;
+    color: #fff;
+    border: 1px solid #111;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#results {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+#no-results {
+    text-align: center;
+    margin: 20px;
+    color: white;
+}
+
+.song-card {
+    background-color: rgb(255, 183, 0);
+    border: 2px solid #111;
+    border-radius: 15px;
+    box-shadow: 5px 5px 5px #111;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+}
+
+.webplayer-container {
+    position: fixed;
+    bottom: 2%;
+    left: 30%;
+    width: 40%;
+    background-color: rgb(255, 183, 0);
+    padding: 5px;
+    text-align: center;
+    color: #111;
+    font-size: 16px;
+    display: flex; /* Add this line */
+    justify-content: center; /* Add this line */
+    align-items: center; /* Add this line */
+    border: 4px solid #111;
+    border-radius: 40px;
+    box-shadow: 10px 5px 10px #111;
+}
+
+.webplayer-container button {
+    background-color: #111;
+    color: #fff;
+    border: 1px solid #111;
+    border-radius: 50%;
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin: 0 10px;
+    margin-right: 20%;
+    font-size: 16px;
+}
+
+.webplayer-container p {
+    margin-left: 10%;
+}
+
+body {
+    overflow: hidden;
+}
+
+@media (orientation: portrait) {
+
+    #results {
+        grid-template-columns: 1fr;
+        align-items: center;
+    }
+
+    #search {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+        width: 100%; /* Ajusta este valor según tus necesidades */
+        height: 50px; /* Ajusta este valor según tus necesidades */
+    }
+    
+    #search input {
+        width: 75%; /* Ajusta este valor según tus necesidades */
+        height: 55%; /* Ajusta este valor según tus necesidades */
+        padding: 10px;
+        border: 1px solid #111;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    
+    #search button {
+        width: 20%; /* Ajusta este valor según tus necesidades */
+        height: 50px; /* Ajusta este valor según tus necesidades */
+        background-color: #111;
+        color: #fff;
+        border: 1px solid #111;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .webplayer-container {
+        position: fixed;
+        bottom: 5%;
+        left: 1.5%;
+        width: 90%;
+        background-color: rgb(255, 183, 0);
+        padding: 5px;
+        text-align: center;
+        color: #111;
+        font-size: 16px;
+        display: flex; /* Add this line */
+        justify-content: center; /* Add this line */
+        align-items: center; /* Add this line */
+        border: 4px solid #111;
+        border-radius: 40px;
+        box-shadow: 10px 5px 10px #111;
+    }
+
+    .webplayer-container button {
+        background-color: #111;
+        color: #fff;
+        border: 1px solid #111;
+        border-radius: 50%;
+        padding: 10px;
+        padding-left: 15px;
+        padding-right: 15px;
+        margin: 0 10px;
+        margin-right: 10%;
+        font-size: 16px;
+    }
+
+    .webplayer-container p {
+        margin-left: 5%;
+    }
+}

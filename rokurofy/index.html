@@ -3,48 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://kit.fontawesome.com/af3d4ac3e6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://kit.fontawesome.com/af3d4ac3e6.js" crossorigin="anonymous"></script>
     <title>Rokurofy</title>
 </head>
-<body>
-    <div id="main">
-        <div id="visuals">
-            <div id="metadetails">
-                <div id="details">
-                    <div id="detail-text">
-                        <h1 id="song-name" class="montserrat-normal">Cancion</h1>
-                        <p id="artist-name" class="montserrat-normal">Artista</p>
-                    </div>
-                    <div id="song_image">
-                        <img id="album_cover" >
-                    </div>
-                </div>
-                <div id="div-slider">
-                    <span id="timeplayed" class="montserrat-normal">00:00</span>
-                    <div id="greyslider">
-                        <div id="fillbar"></div>
-                        <div draggable="true" id="slider-nob"></div>
-                    </div>
-                    <span id="duration" class="montserrat-normal">04:56</span>
-                </div>
-            </div>
-            <div id="controls">
-                <button id="previous" onclick="prevSong()"><i class="fa-solid fa-step-backward"></i></button>
-                <button id="play"><i class="fa-solid fa-play"></i></button>
-                <button id="next" onclick="nextSong()"><i class="fa-solid fa-step-forward"></i></button>
-                <button id="queue" onclick="toggleSidebar()"><i class="fa-solid fa-list"></i></button>
-            </div>
+<body class="montserrat-normal">
+    <header>
+        <div>
+            <img src="../img/r.svg" alt="Rokurofy logo">
+            <span>Rokurofy</span>
         </div>
-        <div id="sidebar" class="montserrat-normal">
-            <h2>Cola de canciones</h2>
+    </header>
+    <main>
+        <div id="search">
+            <input type="text" id="search-bar" placeholder="Buscar canciones, artistas o álbumes">
+            <button id="search-button"><i class="fa-solid fa-search"></i></button>
         </div>
-    </div>
+        <div id="results"></div>
+    </main>
 
-    <script src="js/main.js"></script>
-    <script src="js/show_queue.js"></script>
+    <script>
+        fetch('/rokurofy/songs/songs.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const searchInput = document.getElementById('search-bar');
+                const resultsContainer = document.getElementById('results');
+
+                function searchSongs() {
+                    const searchTerm = normalize(searchInput.value.toLowerCase());
+                    const filteredSongs = data.filter(song => {
+                        const song_name = normalize(song.song_name.toLowerCase());
+                        const artist = normalize(song.artist.toLowerCase());
+                        // const album = normalize(song.album.toLowerCase());
+                        return song_name.includes(searchTerm) || artist.includes(searchTerm) /*|| album.includes(searchTerm)*/;
+                    });
+
+                    displayResults(filteredSongs);
+                }
+
+                function normalize(str) {
+                    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                }
+
+                function displayResults(songs) {
+                    resultsContainer.innerHTML = '';
+
+                    if (songs.length === 0) {
+                        resultsContainer.innerHTML = '<p id="no-results">No se encontraron resultados</p>';
+                        return;
+                    }
+
+                    songs.forEach(song => {
+                        const card = document.createElement('div');
+                        card.classList.add('song-card');
+
+                        const song_name = document.createElement('h3');
+                        song_name.textContent = song.song_name;
+                        card.appendChild(song_name);
+
+                        const artist = document.createElement('p');
+                        artist.textContent = song.artist;
+                        card.appendChild(artist);
+
+                        // Agregar un evento de clic a la tarjeta
+                        card.addEventListener('click', () => {
+                            webplayer(song);
+                        });
+
+                        resultsContainer.appendChild(card);
+                    });
+                }
+
+                searchInput.addEventListener('input', searchSongs);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+            let previousSong = [];
+
+            function webplayer(song) {
+                // Eliminar el contenedor de reproductor web existente, si existe
+                const existingPlayer = document.querySelector('.webplayer-container');
+                if (existingPlayer) {
+                    existingPlayer.remove();
+                }
+
+                //Iniciar un reproductor web con la canción seleccionada en la parte de abajo de la web
+                const playerContainer = document.createElement('div');
+                playerContainer.classList.add('webplayer-container');
+                const songName = document.createElement('h1');
+                songName.textContent = song.song_name;
+                playerContainer.appendChild(songName);
+                const artist = document.createElement('p');
+                artist.textContent = song.artist;
+                playerContainer.appendChild(artist);
+
+                // Crear el elemento de audio
+                const audio = document.createElement('audio');
+                audio.src = song.url;
+                playerContainer.appendChild(audio);
+
+                audio.play();
+
+                // Crear el botón de reproducción/pausa
+                const playPauseButton = document.createElement('button');
+
+                // Definir la función de actualización del botón
+                function updateButton() {
+                    if (audio.paused) {
+                        playPauseButton.innerHTML = '<i class="fa-solid fa-play"></i>';
+                    } else {
+                        playPauseButton.innerHTML = '<i class="fa-solid fa-pause"></i>';
+                    }
+                }
+
+                // Agregar el evento de clic al botón
+                playPauseButton.addEventListener('click', () => {
+                    if (audio.paused) {
+                        audio.play();
+                    } else {
+                        audio.pause();
+                    }
+                    updateButton();
+                });
+
+                // Actualizar el botón inicialmente
+                updateButton();
+
+                playerContainer.prepend(playPauseButton);
+
+                // Append the player container to the bottom of the web page
+                document.body.appendChild(playerContainer);
+
+                // Agregar la canción a la lista de canciones reproducidas anteriormente
+                previousSongs.push(song);
+                }
+
+            songs.forEach(song => {
+                const card = document.createElement('div');
+                card.classList.add('song-card');
+
+                const song_name = document.createElement('h3');
+                song_name.textContent = song.song_name;
+                card.appendChild(song_name);
+
+                const artist = document.createElement('p');
+                artist.textContent = song.artist;
+                card.appendChild(artist);
+
+                // Agregar un evento de clic a la tarjeta
+                card.addEventListener('click', () => {
+                    webplayer(song);
+                });
+
+                resultsContainer.appendChild(card);
+            });
+    </script>
 </body>
 </html>

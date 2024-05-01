@@ -10,63 +10,18 @@ let slider_nob = document.getElementById("slider-nob");
 let currentPos, newPos, startPos = 0;
 let shuffledSongs = [];
 
-//temporalmente hardcodeamos las canciones en el javascript
-let songs = [
-    {
-        song_name: "edamame",
-        artist: "bbno$, Rich Brian",
-        url: "/rokurofy/songs/edamame.flac",
-        album_cover: "/rokurofy/img/edamame.jpeg"
-    },
-    {
-        song_name: "It Is What It Is",
-        artist: "Jenna Raine",
-        url: "/rokurofy/songs/it_is_what_it_is.flac",
-        album_cover: "/rokurofy/img/it_is_what_it_is.jpeg"
-    },
-    {
-        song_name: "Numb Little Bug",
-        artist: "Em Beihold",
-        url: "/rokurofy/songs/numb_little_bug.flac",
-        album_cover: "/rokurofy/img/numb_little_bug.jpeg"
-    },
-    {
-        song_name: "Guilty Pleasures",
-        artist: "Confetti",
-        url: "/rokurofy/songs/guilty_pleasures.flac",
-        album_cover: "/rokurofy/img/guilty_pleasures.jpeg"
-    },
-    {
-        song_name: "Bling-Bang-Bang-Born",
-        artist: "Creepy Nuts",
-        url: "/rokurofy/songs/bling_bang_bang_born.flac",
-        album_cover: "/rokurofy/img/bling_bang_bang_born.jpeg"
-    },
-    {
-        song_name: "Soldier, Poet, King",
-        artist: "The Oh Hellos",
-        url: "/rokurofy/songs/solider_poet_king.flac",
-        album_cover: "/rokurofy/img/soldier_poet_king.jpeg"
-    },
-    {
-        song_name: "Hazel Eyes",
-        artist: "Sabrina Jordan",
-        url: "/rokurofy/songs/hazel_eyes.flac",
-        album_cover: "/rokurofy/img/hazel_eyes.webp"
-    },
-    {
-        song_name: "PERCEPTION CHECK",
-        artist: "Tom Cardy",
-        url: "/rokurofy/songs/perception_check.flac",
-        album_cover: "/rokurofy/img/perception_check.jpeg"
-    },
-    {
-        song_name: "Bang!",
-        artist: "AJR",
-        url: "/rokurofy/songs/bang.flac",
-        album_cover: "/rokurofy/img/bang.jpeg"
-    }
-]
+fetch('/rokurofy/songs/songs.json')
+  .then(response => response.json())
+  .then(data => {
+    songs = data;
+    prepareNextSongs(songs);
+    setSong(current_song);
+  }
+)
+  .catch(error => {
+    console.error('Error reading songs data:', error);
+  }
+);
 
 function setSong(index) {
     audio = new Audio(shuffledSongs[index].url);
