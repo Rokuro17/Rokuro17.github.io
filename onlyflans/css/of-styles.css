@@ -1,0 +1,132 @@
+.montserrat-normal {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+  
+.montserrat-bold {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f0f0f0;
+}
+
+.of-title {
+    font-size: 4em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: deepskyblue;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: deepskyblue;
+  }
+  
+  li {
+    float: left;
+  }
+  
+  li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+  /* Change the link color to #111 (black) on hover */
+  li a:hover {
+    background-color: white;
+    color: deepskyblue;
+  }
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content a {
+    color: deepskyblue;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: deepskyblue;
+    display: block;
+}
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .fa-fire {
+    animation: infinite pulse 1s;
+}
+
+.main-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    text-align: center;
+    margin: 20px;
+    transition: all ease 0.5s;
+}
+
+.card img {
+    margin-top: 2%;
+    border-radius: 20px;
+} 
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    transform: scale(1.05);
+}
