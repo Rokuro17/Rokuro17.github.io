@@ -9,42 +9,16 @@
 }
 
 body {
-    background-color: rgb(34, 40, 46);
-    color: white;
+    background-color: rgb(228, 228, 228);
+    color: black;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 
 a {
-    color: rgb(255, 191, 0);
+    color: deepskyblue;
     text-decoration: none;
-}
-
-.wrapper {
-  /*This part is important for centering*/
-  display: grid;
-  place-items: center;
-}
-
-.typing-title {
-  width: 10ch;
-  animation: typing 1.2s steps(5), blink .6s step-end infinite alternate;
-  white-space: nowrap;
-  overflow: hidden;
-  border-right: 3px solid;
-}
-
-@keyframes typing {
-  from {
-    width: 0
-  }
-}
-    
-@keyframes blink {
-  50% {
-    border-color: transparent
-  }
 }
 
 .contact-links {
@@ -68,16 +42,52 @@ a {
 .card {
   margin: 2%;
   padding: 2%;
-  border: 2px solid rgb(255, 191, 0);
+  border: 2px solid deepskyblue;
   border-radius: 15px;
+  background-color: white;
 }
 
 footer {
-    background-color: rgb(34, 40, 46);
-    color: white;
+    background-color: rgb(255, 252, 244);
+    color: black;
     text-align: center;
     padding: 2%;
     position: fixed;
     bottom: 0;
     width: 100%;
+}
+
+.main-projects h2 {
+  text-align: center;
+  width: 100%;
+} 
+
+.item-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 20px;
+}
+
+.item-card {
+  background-color: rgb(228, 228, 228);
+  padding: 20px;
+  text-align: center;
+  border: 2px solid deepskyblue;
+  border-radius: 15px;
+  transition: all ease 0.5s;
+}
+
+.item-card:hover {
+  transform: scale(1.09);
+}
+
+.item-card.blur {
+  filter: blur(2px);
+}
+
+.cursor {
+  animation: blink 1s infinite;
+}
+@keyframes blink {
+  50% { opacity: 0; }
 }

@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <title>Gabriel A. Pizarro | Portfolio</title>
 </head>
 <body>
@@ -22,7 +23,7 @@
         <div class="card-header">
           <div class="wrapper">
             <div class="typing-title">
-              <h1>Hola!</h1>
+              <h1><span id="typed-text"></span><span class="cursor">|</span></h1>
             </div>
           </div>
           <p> 
@@ -36,13 +37,68 @@
         </div>
         <div class="main-projects">
           <h2>Proyectos</h2>
-          <a href="rokurofy/index.html">Rokurofy (Reproductor web)</a>
-          <a href="rokuronator/">Rokuronator (Calculadora)</a>
-          <a href="rokushop/">Rokushop (Tienda Online)</a>
+          <div class="item-container">
+            <div class="item-card">
+              <a href="rokurofy/index.html">
+                <img src="img/r.svg" alt="Rokurofy">
+              </a>
+              <div class="card-body">
+                <h3>Rokurofy</h3>
+                <p>Reproductor web de música</p>
+              </div>
+            </div>
+            <div class="item-card">
+              <a href="rokushop/index.html">
+                <img src="img/r.svg" alt="Rokushop">
+              </a>
+              <div class="card-body">
+                <h3>Rokushop</h3>
+                <p>Tienda online</p>
+              </div>
+            </div>
+            <div class="item-card">
+              <a href="rokuronator/index.html">
+                <img src="img/r.svg" alt="Rokuronator">
+              </a>
+              <div class="card-body">
+                <h3>Rokuronator</h3>
+                <p>Calculadora</p>
+              </div>
+            </div>
+          </div>  
         </div>
       </div>
     </div>
   </div>
-  <footer>&copy; <span style="color: rgb(255, 200, 0);">rokuro17</span>.es | 2024 </footer>
+  <script>
+    $(document).ready(function(){
+      $('.item-card').hover(
+        function() {
+          // Al pasar el ratón sobre un elemento .item-card, añade la clase 'blur' a todos los demás
+          $('.item-card').not(this).addClass('blur');
+        },
+        function() {
+          // Al mover el ratón fuera de un elemento .item-card, quita la clase 'blur' de todos los demás
+          $('.item-card').not(this).removeClass('blur');
+        }
+      );
+    });
+    </script>
+    <script>
+      let texto = 'Hola!';
+      let indice = 0;
+      let elemento = document.getElementById('typed-text');
+  
+      function escribirTexto() {
+          if (indice < texto.length) {
+              elemento.innerHTML += texto.charAt(indice);
+              indice++;
+              setTimeout(escribirTexto, 300); // Ajusta la velocidad de tecleo cambiando el valor de timeout
+          }
+      }
+  
+      window.onload = escribirTexto;
+  </script>
+  <footer>&copy; <span style="color: deepskyblue;">rokuro17</span>.es | 2024 </footer>
 </body>
 </html>
