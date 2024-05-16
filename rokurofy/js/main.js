@@ -1,267 +1,143 @@
-let current_song = 0;
-let audio = null;
-let duration = 0;
-let playing = false;
-let play_pause_btn = document.getElementById("play");
-let grey_slider = document.getElementById("greyslider");
-let fillbar = document.getElementById("fillbar");
-let audio_slider = document.getElementById("slider");
-let slider_nob = document.getElementById("slider-nob");
-let currentPos, newPos, startPos = 0;
-let shuffledSongs = [];
-
 fetch('/rokurofy/songs/songs.json')
-  .then(response => response.json())
-  .then(data => {
-    songs = data;
-    prepareNextSongs(songs);
-    setSong(current_song);
-  }
-)
-  .catch(error => {
-    console.error('Error reading songs data:', error);
-  }
-);
-
-function setSong(index) {
-    audio = new Audio(shuffledSongs[index].url);
-    audio.addEventListener("loadeddata", () => {
-       audio.controls = true;
-       duration = audio.duration;
-       document.getElementById("song-name").innerHTML = shuffledSongs[index].song_name;
-       document.getElementById("artist-name").innerHTML = shuffledSongs[index].artist;
-       document.getElementById("duration").innerHTML = convertTime(duration);
-       var image = document.getElementById("album_cover")
-       image.src = shuffledSongs[index].album_cover;
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
     })
-  
-    // Listen for when the song ends
-    audio.addEventListener("ended", () => {
-       nextSong();
+    .then(data => {
+        const searchInput = document.getElementById('search-bar');
+        const resultsContainer = document.getElementById('results');
+        const previousSongs = [];
+
+        function createSongCard(song) {
+            const card = document.createElement('div');
+            card.classList.add('song-card');
+
+            const song_name = document.createElement('h3');
+            song_name.textContent = song.song_name;
+            card.appendChild(song_name);
+
+            const artist = document.createElement('p');
+            artist.textContent = song.artist;
+            card.appendChild(artist);
+
+            // Agregar un evento de clic a la tarjeta
+            card.addEventListener('click', () => {
+                webplayer(song);
+            });
+
+            return card;
+        }
+
+        function searchSongs() {
+            const searchTerm = normalize(searchInput.value.toLowerCase());
+            const filteredSongs = data.filter(song => {
+                const song_name = normalize(song.song_name.toLowerCase());
+                const artist = normalize(song.artist.toLowerCase());
+                return song_name.includes(searchTerm) || artist.includes(searchTerm);
+            });
+
+            displayResults(filteredSongs);
+        }
+
+        function normalize(str) {
+            return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function displayResults(songs) {
+            resultsContainer.textContent = '';
+
+            if (songs.length === 0) {
+                const noResults = document.createElement('p');
+                noResults.id = 'no-results';
+                noResults.textContent = 'No se encontraron resultados';
+                resultsContainer.appendChild(noResults);
+                return;
+            }
+
+            songs.forEach(song => {
+                const card = createSongCard(song);
+                resultsContainer.appendChild(card);
+            });
+        }
+
+        searchInput.addEventListener('input', searchSongs);
     })
-  }
+    .catch(error => {
+        console.error('Error:', error);
+    });
 
-   function prepareNextSongs(songs) {
-      // Crear una copia de la lista de canciones y mezclarla
-      shuffledSongs = [...songs];
-      shuffledSongs.sort(() => Math.random() - 0.5);
-
-      // Obtener el elemento de la barra lateral donde se mostrará la cola
-      const sidebar = document.getElementById('sidebar');
-
-      // Limpiar la barra lateral
-      sidebar.innerHTML = '';
-
-      // Crear y añadir las canciones a la barra lateral
-      shuffledSongs.forEach((song, index) => {
-         const songElement = document.createElement('div');
-         songElement.textContent = `${index + 1}. ${song.song_name}`;
-         songElement.addEventListener('click', () => playSongAtIndex(index));
-         sidebar.appendChild(songElement);
-      });
-   }
-
-   function nextSong() {
-      audio.pause();
-      current_song = (current_song + 1) % shuffledSongs.length; // Avanzar a la siguiente canción
-      setSong(current_song);
-   
-      if (playing) {
-      audio.play();
-      setSeeker();
-      } else {
-      fillbar.style.width = 0;
-      slider_nob.style.left = 0;
-      }
-   }
-
-   function prevSong() {
-      audio.pause();
-    
-      if(current_song == 0) {
-        current_song = shuffledSongs.length - 1; // Si estamos en la primera canción, ir a la última
-      } else {
-        current_song--;
-      }
-      setSong(current_song);
-    
-      // if it was playing then automatically play the next song
-      if(playing) {
-        audio.play();
-        setSeeker();
-      } else {
-        fillbar.style.width = 0;
-        slider_nob.style.left = 0;
-      }
+function webplayer(song) {
+    // Eliminar el contenedor de reproductor web existente, si existe
+    const existingPlayer = document.querySelector('.webplayer-container');
+    if (existingPlayer) {
+        existingPlayer.remove();
     }
 
-   function playSongAtIndex(index) {
-      if (index >= 0 && index < shuffledSongs.length) {
-         audio.pause();
-         current_song = index;
-         setSong(current_song);
-         audio.play();
-         setSeeker();
-      } else {
-         console.error('Índice fuera de rango');
-      }
-      }
+    //Iniciar un reproductor web con la canción seleccionada en la parte de abajo de la web
+    const playerContainer = document.createElement('div');
+    playerContainer.classList.add('webplayer-container');
+    const songName = document.createElement('h1');
+    songName.textContent = song.song_name;
+    playerContainer.appendChild(songName);
+    const artist = document.createElement('p');
+    artist.textContent = song.artist;
+    playerContainer.appendChild(artist);
 
-  function updateSeeker() {
-    document.getElementById("timeplayed").innerHTML = convertTime(audio.currentTime);
-    let percentage = (audio.currentTime / duration * 100).toFixed(1);
-    fillbar.style.width = percentage + "%";
-    slider_nob.style.left = (audio.currentTime/ duration * grey_slider.clientWidth).toFixed(1) + "px";
-  }
+    // Crear el indicador de carga
+    const loadingIndicator = document.createElement('div');
+    loadingIndicator.textContent = 'Cargando...';
+    playerContainer.appendChild(loadingIndicator);
 
-  function setSeeker() {
-    audio.addEventListener("timeupdate", updateSeeker);
-  }
-  // Convert time to minutes and seconds so you can display on page
-  function convertTime(time) {
-    // time is already in seconds so there is no need to calculate secinds
-    let secs = Math.floor(time);
-    let mins = Math.floor(secs / 60);
-  
-    secs = secs % 60;
-    mins = mins % 60;
-  
-    return mins.toString().padStart(2, '0') + ":" + secs.toString().padStart(2, '0')
-  }
-  // This function tracks the seeker
-  function moveObj(e) {
-    // calculate the new position
-    newPos = startPos - e.clientX;
-  
-    // with each move we also want to update the start X and Y
-    startPos = e.clientX;
-  
-    // set the element's new position:
-    if ((slider_nob.offsetLeft - newPos) >= 0 && (slider_nob.offsetLeft - newPos) <= grey_slider.clientWidth - slider_nob.clientWidth) {
-  
-       slider_nob.style.left = (slider_nob.offsetLeft - newPos) + "px";
-       let percentage = ((slider_nob.offsetLeft - newPos) / (grey_slider.clientWidth - slider_nob.clientWidth) * 100).toFixed(1);
-       fillbar.style.width = percentage + "%";
-  
-       audio.currentTime = (percentage / 100) * duration;
-  
-     }
-  }
-  
+    // Crear el elemento de audio
+    const audio = new Audio();
+    audio.src = song.url;
 
+    // Mostrar el indicador de carga mientras la canción se está cargando
+    audio.addEventListener('loadstart', () => {
+        loadingIndicator.style.display = 'block';
+    });
 
+    // Ocultar el indicador de carga cuando la canción esté lista para reproducirse
+    audio.addEventListener('canplaythrough', () => {
+        loadingIndicator.style.display = 'none';
+    });
 
-  play_pause_btn.addEventListener("click", () => {
-    if(!playing) {
-       audio.play();
-       play_pause_btn.innerHTML = '<i class="fas fa-solid fa-pause"></i>';
-       playing = true;
-    } else {
-       audio.pause();
-       play_pause_btn.innerHTML = '<i class="fas fa-solid fa-play"></i>';
-       playing = false;
+    playerContainer.appendChild(audio);
+
+    audio.play();
+
+    // Crear el botón de reproducción/pausa
+    const playPauseButton = document.createElement('button');
+
+    // Definir la función de actualización del botón
+    function updateButton() {
+        if (audio.paused) {
+            playPauseButton.innerHTML = '<i class="fa-solid fa-play"></i>';
+        } else {
+            playPauseButton.innerHTML = '<i class="fa-solid fa-pause"></i>';
+        }
     }
-    setSeeker();
-  })
-  
-// mousedown event occurs when a user presses the mouse button on an event
-slider_nob.addEventListener("mousedown", (e) => {
-    e.preventDefault();
-    audio.removeEventListener("timeupdate", updateSeeker);
 
-    // Get the starting position of the cursor
-    startPos = e.clientX;
+    // Agregar el evento de clic al botón
+    playPauseButton.addEventListener('click', () => {
+        if (audio.paused) {
+            audio.play();
+        } else {
+            audio.pause();
+        }
+        updateButton();
+    });
 
-    // mousemove event occurs when a user moves their mouse
-    document.addEventListener("mousemove", moveObj);
+    // Actualizar el botón inicialmente
+    updateButton();
 
-    // mouseup occurs when a user releases the mouse button
-    document.addEventListener("mouseup", () => {
-        document.removeEventListener("mousemove", moveObj);
-        audio.addEventListener("timeupdate", updateSeeker);
-    })
-})
+    playerContainer.prepend(playPauseButton);
 
-// Eventos táctiles para dispositivos móviles
-slider_nob.addEventListener("touchstart", (e) => {
-   e.preventDefault();
-   audio.removeEventListener("timeupdate", updateSeeker);
+    // Append the player container to the bottom of the web page
+    document.body.appendChild(playerContainer);
 
-   // Get the starting position of the touch
-   startPos = e.touches[0].clientX;
-
-   // touchmove event occurs when a user moves their finger across the screen
-   document.addEventListener("touchmove", moveObj);
-
-   // touchend occurs when a user lifts their finger off of the screen
-   document.addEventListener("touchend", () => {
-       document.removeEventListener("touchmove", moveObj);
-       audio.addEventListener("timeupdate", updateSeeker);
-   })
-})
-
-// Añadir evento de clic al slider
-grey_slider.addEventListener("click", (e) => {
-    let rect = grey_slider.getBoundingClientRect();
-    let x = e.clientX - rect.left; // posición x del clic relativa al slider
-    let width = rect.right - rect.left; // ancho del slider
-    let percentage = x / width; // porcentaje del slider donde se hizo clic
-    let newTime = percentage * duration; // nuevo tiempo de la canción
-
-    // establecer el nuevo tiempo de la canción
-    audio.currentTime = newTime;
-
-    // actualizar el seeker y el slider
-    updateSeeker();
-});
-
-// Añadir evento de arrastre al slider_nob
-slider_nob.addEventListener("mousemove", (e) => {
-    if(e.buttons === 1) { // Si el botón izquierdo del ratón está presionado
-        let rect = grey_slider.getBoundingClientRect();
-        let x = e.clientX - rect.left; // posición x del clic relativa al slider
-        let width = rect.right - rect.left; // ancho del slider
-        let percentage = x / width; // porcentaje del slider donde se hizo clic
-        let newTime = percentage * duration; // nuevo tiempo de la canción
-
-        // establecer el nuevo tiempo de la canción
-        audio.currentTime = newTime;
-
-        // actualizar el seeker y el slider
-        updateSeeker();
-    }
-});
-
-// Añadir evento de toque al slider
-grey_slider.addEventListener("touchstart", (e) => {
-   let rect = grey_slider.getBoundingClientRect();
-   let x = e.touches[0].clientX - rect.left; // posición x del toque relativa al slider
-   let width = rect.right - rect.left; // ancho del slider
-   let percentage = x / width; // porcentaje del slider donde se tocó
-   let newTime = percentage * duration; // nuevo tiempo de la canción
-
-   // establecer el nuevo tiempo de la canción
-   audio.currentTime = newTime;
-
-   // actualizar el seeker y el slider
-   updateSeeker();
-});
-
-// Añadir evento de arrastre al slider_nob
-slider_nob.addEventListener("touchmove", (e) => {
-   let rect = grey_slider.getBoundingClientRect();
-   let x = e.touches[0].clientX - rect.left; // posición x del toque relativa al slider
-   let width = rect.right - rect.left; // ancho del slider
-   let percentage = x / width; // porcentaje del slider donde se tocó
-   let newTime = percentage * duration; // nuevo tiempo de la canción
-
-   // establecer el nuevo tiempo de la canción
-   audio.currentTime = newTime;
-
-   // actualizar el seeker y el slider
-   updateSeeker();
-});
-  
-  // Llamar a prepareNextSongs con la lista de canciones
-   prepareNextSongs(songs);
-   setSong(current_song);
+    // Agregar la canción a la lista de canciones reproducidas anteriormente
+    previousSongs.push(song);
+}
