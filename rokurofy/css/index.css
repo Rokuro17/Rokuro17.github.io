@@ -40,7 +40,7 @@ header span {
 }
 
 #search input {
-    width: 90%; /* Ajusta este valor según tus necesidades */
+    width: 60%; /* Ajusta este valor según tus necesidades */
     height: 55%; /* Ajusta este valor según tus necesidades */
     margin-right: 1%;
     padding: 10px;
@@ -63,6 +63,8 @@ header span {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
+    width: 60%;
+    margin-left: 23%;
 }
 
 #no-results {
@@ -190,4 +192,31 @@ header span {
     filter: blur(5px);
     pointer-events: none;
     user-select: none;
+}
+
+#left-sidebar {
+    width: 20%;
+    height: 75vh;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: rgb(228, 228, 228);
+    border-right: 2px solid deepskyblue;
+    left: 0;
+    top: 10%
+}
+
+#right-sidebar {
+    width: 20%;
+    height: 75vh;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: rgb(228, 228, 228);
+    border-left: 2px solid deepskyblue;
+    /* place the right sidebar to the right*/
+    right: 0;
+    top: 10%;
 }

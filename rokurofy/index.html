@@ -17,6 +17,12 @@
             <span>Rokurofy</span>
         </div>
     </header>
+
+    <!-- Barra lateral izquierda para las listas de reproducción -->
+    <aside id="left-sidebar">
+        <!-- Aquí puedes agregar el contenido de las listas de reproducción -->
+    </aside>
+
     <main>
         <div id="search">
             <input type="text" id="search-bar" placeholder="Buscar canciones, artistas o álbumes">
@@ -25,6 +31,215 @@
         <div id="results"></div>
     </main>
 
-    <script src="js/main.js"></script>
+    <!-- Barra lateral derecha para detalles adicionales de la canción y el artista -->
+    <aside id="right-sidebar" class="hideable">
+        <!-- Aquí puedes agregar el contenido de los detalles de la canción y el artista -->
+    </aside>
+
+    <!-- Sección inferior para los controles del reproductor de música -->
+    <footer id="music-player-controls">
+        <!-- Aquí puedes agregar los controles del reproductor de música -->
+    </footer>
+    <script>
+        // Define an array to store the playlist data
+        let playlists = [];
+
+        // Function to add a playlist to the array
+        function createPlaylist(playlistName, playlistImage, playlistDescription, playlistSongs) {
+            playlists.push({ name: playlistName, image: playlistImage, description: playlistDescription, songs: playlistSongs });
+        }
+
+        // Function to display the playlists
+        function displayPlaylists() {
+            const leftSidebar = document.getElementById('left-sidebar');
+            leftSidebar.innerHTML = '';
+
+            playlists.forEach((playlist) => {
+                const playlistItem = document.createElement('div');
+                const playlistImage = document.createElement('img');
+                playlistImage.src = playlist.image;
+                playlistImage.alt = playlist.name;
+                playlistImage.width = 50;
+                playlistImage.style.borderRadius = '10px';
+                const playlistName = document.createElement('span');
+                playlistName.textContent = playlist.name;
+                playlistItem.appendChild(playlistImage);
+                playlistItem.appendChild(playlistName);
+                playlistName.style.marginLeft = '10px';
+                playlistItem.style.cursor = 'pointer';
+                playlistItem.style.marginBottom = '10px';
+                playlistItem.style.marginLeft = '10px';
+                playlistItem.style.display = 'flex';
+                playlistItem.style.alignItems = 'center';
+                playlistItem.style.border = '1px solid #ccc';
+                playlistItem.style.borderRadius = '10px';
+                playlistItem.addEventListener('click', () => {
+                    // Play the playlist logic goes here
+                    console.log(`Playing playlist: ${playlist.name}`);
+                    showPlaylistDetail(playlist.image, playlist.name, playlist.description, playlist.songs);
+                });
+                leftSidebar.appendChild(playlistItem);
+            });
+        }
+
+        // Example usage
+        createPlaylist('My playlist', 'img/bang.jpeg', 'This is my playlist', ['songs/bang.mp3', 'songs/blur.mp3']);
+        createPlaylist('My playlist 2', 'img/edamame.jpeg', 'This is my playlist 2', ['songs/edamame.mp3', 'songs/bang.mp3']);
+
+        displayPlaylists();
+    </script>
+    <script>
+        function createPlaylistGUI() {
+            //add a button to create a playlist
+            const leftSidebar = document.getElementById('left-sidebar');
+            const createPlaylistButton = document.createElement('button');
+            createPlaylistButton.textContent = 'Create Playlist';
+            createPlaylistButton.style.margin = '10px';
+            createPlaylistButton.style.padding = '10px';
+            createPlaylistButton.style.border = '1px solid #ccc';
+            createPlaylistButton.style.borderRadius = '10px';
+            createPlaylistButton.style.cursor = 'pointer';
+            createPlaylistButton.addEventListener('click', () => {
+                //create a popup form to create a playlist without prompt method
+                const main = document.querySelector('main');
+                const playlistFormDiv = document.createElement('div');
+                playlistFormDiv.id = 'playlist-form';
+                const playlistForm = document.createElement('form');
+                playlistForm.style.display = 'flex';
+                playlistForm.style.flexDirection = 'column';
+                playlistForm.style.padding = '10px';
+                playlistForm.style.border = '1px solid #ccc';
+                playlistForm.style.borderRadius = '10px';
+                playlistForm.style.margin = '10px';
+                playlistForm.style.width = '200px';
+                playlistForm.style.position = 'absolute';
+                playlistForm.style.backgroundColor = 'white';
+                playlistForm.style.zIndex = '1';
+                playlistForm.style.top = '50%';
+                playlistForm.style.left = '50%';
+                playlistForm.style.transform = 'translate(-50%, -50%)';
+
+                const playlistFormTitle = document.createElement('h2');
+                playlistFormTitle.textContent = 'Create Playlist';
+                playlistForm.appendChild(playlistFormTitle);
+
+                const playlistNameInput = document.createElement('input');
+                playlistNameInput.type = 'text';
+                playlistNameInput.placeholder = 'Playlist Name';
+                playlistForm.appendChild(playlistNameInput);
+
+                playlistNameInput.style.marginBottom = '10px';
+
+                const plalistImageInputText = document.createElement('span');
+                plalistImageInputText.textContent = 'Playlist Image';
+                playlistForm.appendChild(plalistImageInputText);
+
+                plalistImageInputText.style.marginBottom = '10px';
+
+                const playlistImageInput = document.createElement('input');
+                playlistImageInput.type = 'file';
+                playlistImageInput.accept = 'image/*';
+                playlistForm.appendChild(playlistImageInput);
+
+                playlistImageInput.style.marginBottom = '10px';
+
+                const playlistDescriptionInput = document.createElement('textarea');
+                playlistDescriptionInput.placeholder = 'Playlist Description';
+                playlistForm.appendChild(playlistDescriptionInput);
+
+                playlistDescriptionInput.style.marginBottom = '10px';
+
+                //select songs from the stored songs in the 'songs' folder
+                const playlistSongsSelect = document.createElement('select');
+                playlistSongsSelect.multiple = true;
+                playlistSongsSelect.style.marginBottom = '10px';
+                //get the songs from the 'songs' folder
+                fetch('songs/songs.json')
+                    .then((response) => response.json())
+                    .then((songs) => {
+                        songs.forEach((song) => {
+                            const songOption = document.createElement('option');
+                            songOption.value = `songs/${song.file}`;
+                            songOption.textContent = song.song_name;
+                            playlistSongsSelect.appendChild(songOption);
+                        });
+                    });
+                playlistForm.appendChild(playlistSongsSelect);
+
+                const createPlaylistButton = document.createElement('button');
+                createPlaylistButton.textContent = 'Create Playlist';
+                createPlaylistButton.style.padding = '10px';
+                createPlaylistButton.style.border = '1px solid #ccc';
+                createPlaylistButton.style.borderRadius = '10px';
+                createPlaylistButton.style.cursor = 'pointer';
+                createPlaylistButton.style.backgroundColor = 'white';
+
+                playlistForm.appendChild(createPlaylistButton);
+
+                createPlaylistButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const playlistName = playlistNameInput.value;
+                    const playlistImage = playlistImageInput.files[0];
+                    //save the image in the 'playlist_img' folder (this have to work on local test too)
+                    const formData = new FormData();
+                    formData.append('playlistImage', playlistImage);
+                    fetch('playlist_img/upload.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then((response) => response.text())
+                        .then((imagePath) => {
+                            console.log(imagePath);
+                        });
+                        
+
+                    const playlistDescription = playlistDescriptionInput.value;
+                    const playlistSongs = Array.from(playlistSongsSelect.selectedOptions).map((option) => option.value);
+                    playlistFormDiv.remove();
+                    createPlaylist(playlistName, playlistImage, playlistDescription, playlistSongs);
+                    displayPlaylists();
+                });
+
+                playlistFormDiv.appendChild(playlistForm);
+                main.appendChild(playlistFormDiv);
+
+                createPlaylist(playlistName, playlistImage, playlistDescription, playlistSongs);
+                displayPlaylists();
+            });
+            leftSidebar.appendChild(createPlaylistButton);
+
+        }
+        createPlaylistGUI();
+    </script>
+    <script>
+        function showPlaylistDetail(playlistImage, playlistName, playlistDescription, playlistSongs) {
+            const rightSidebar = document.getElementById('right-sidebar');
+            rightSidebar.innerHTML = '';
+
+            const playlistImageElement = document.createElement('img');
+            playlistImageElement.src = playlistImage; // Cambiado de playlistImage.src a playlistImage
+            playlistImageElement.alt = playlistName; // Cambiado de playlistName.textContent a playlistName
+            playlistImageElement.width = 100;
+            playlistImageElement.style.borderRadius = '10px';
+            rightSidebar.appendChild(playlistImageElement);
+
+            const playlistNameElement = document.createElement('h2');
+            playlistNameElement.textContent = playlistName; // Cambiado de playlistName.textContent a playlistName
+            rightSidebar.appendChild(playlistNameElement);
+
+            const playlistDescriptionElement = document.createElement('p');
+            playlistDescriptionElement.textContent = playlistDescription;
+            rightSidebar.appendChild(playlistDescriptionElement);
+
+            const playlistSongsElement = document.createElement('ul');
+            playlistSongs.forEach((song) => {
+                const songElement = document.createElement('li');
+                songElement.textContent = song;
+                playlistSongsElement.appendChild(songElement);
+            });
+            playlistSongsElement.style.listStyleType = 'none';
+            rightSidebar.appendChild(playlistSongsElement);
+        }
+    </script>
 </body>
 </html>
