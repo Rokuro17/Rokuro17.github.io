@@ -83,8 +83,8 @@
         }
 
         // Example usage
-        createPlaylist('My playlist', 'img/bang.jpeg', 'This is my playlist', ['songs/bang.mp3', 'songs/blur.mp3']);
-        createPlaylist('My playlist 2', 'img/edamame.jpeg', 'This is my playlist 2', ['songs/edamame.mp3', 'songs/bang.mp3']);
+        createPlaylist('My playlist', 'img/bang.jpeg', 'This is my playlist', ['Bang', 'Blur']);
+        createPlaylist('My playlist 2', 'img/edamame.jpeg', 'This is my playlist 2', ['Edamame.mp3', 'songs/bang.mp3']);
 
         displayPlaylists();
     </script>
@@ -224,7 +224,17 @@
             rightSidebar.appendChild(playlistImageElement);
 
             const playlistNameElement = document.createElement('h2');
-            playlistNameElement.textContent = playlistName; // Cambiado de playlistName.textContent a playlistName
+            //check the song name in the songs.json file
+            fetch('songs/songs.json')
+                .then((response) => response.json())
+                .then((songs) => {
+                    songs.forEach((song) => {
+                        if (playlistSongs.includes(`songs/${song.file}`)) {
+                            const songName = song.song_name;
+                            playlistNameElement.textContent = songName;
+                        }
+                    });
+                });
             rightSidebar.appendChild(playlistNameElement);
 
             const playlistDescriptionElement = document.createElement('p');
