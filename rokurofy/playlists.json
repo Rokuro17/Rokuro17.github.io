@@ -1,0 +1,12 @@
+{
+    "playlists": [
+        {
+            "name": "Pito",
+            "img": "playlist_img/playlist1.svg",
+            "description": "This is a playlist for Pito",
+            "songs": [
+                "song1","song2","song3","song4","song5"
+            ]
+        }
+    ]
+}

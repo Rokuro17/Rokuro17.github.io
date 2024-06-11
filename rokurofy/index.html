@@ -44,9 +44,25 @@
         // Define an array to store the playlist data
         let playlists = [];
 
-        // Function to add a playlist to the array
+        // Function to save the playlist in playlists.json using fetch to a flask server running on port 5000 as main.py in python folder
         function createPlaylist(playlistName, playlistImage, playlistDescription, playlistSongs) {
-            playlists.push({ name: playlistName, image: playlistImage, description: playlistDescription, songs: playlistSongs });
+            // Send the playlist data to the server trhough a POST request with URIcomponent
+            try {
+                fetch('/rokurofy/main.py', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `playlistName=${encodeURIComponent(playlistName)}&playlistImage=${encodeURIComponent(playlistImage)}&playlistDescription=${encodeURIComponent(playlistDescription)}&playlistSongs=${encodeURIComponent(JSON.stringify(playlistSongs))}`,
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        // Add the playlist to the playlists array
+                        playlists.push(data);
+                    });
+            } catch (error) {
+                console.error('Error creating playlist:', error);
+            }
         }
 
         // Function to display the playlists
@@ -54,37 +70,63 @@
             const leftSidebar = document.getElementById('left-sidebar');
             leftSidebar.innerHTML = '';
 
-            playlists.forEach((playlist) => {
-                const playlistItem = document.createElement('div');
-                const playlistImage = document.createElement('img');
-                playlistImage.src = playlist.image;
-                playlistImage.alt = playlist.name;
-                playlistImage.width = 50;
-                playlistImage.style.borderRadius = '10px';
-                const playlistName = document.createElement('span');
-                playlistName.textContent = playlist.name;
-                playlistItem.appendChild(playlistImage);
-                playlistItem.appendChild(playlistName);
-                playlistName.style.marginLeft = '10px';
-                playlistItem.style.cursor = 'pointer';
-                playlistItem.style.marginBottom = '10px';
-                playlistItem.style.marginLeft = '10px';
-                playlistItem.style.display = 'flex';
-                playlistItem.style.alignItems = 'center';
-                playlistItem.style.border = '1px solid #ccc';
-                playlistItem.style.borderRadius = '10px';
-                playlistItem.addEventListener('click', () => {
-                    // Play the playlist logic goes here
-                    console.log(`Playing playlist: ${playlist.name}`);
-                    showPlaylistDetail(playlist.image, playlist.name, playlist.description, playlist.songs);
-                });
-                leftSidebar.appendChild(playlistItem);
-            });
-        }
+            // get the info of the playlist from the playlists.json file
+            fetch('playlists.json')
+                .then((response) => response.json())
+                .then((data) => {
+                    // Comprueba si data.playlists es un array
+                    if (Array.isArray(data.playlists)) {
+                        // Itera a través de cada playlist en el array
+                        data.playlists.forEach((playlist) => {
+                            console.log(playlist.name);
+                            console.log(playlist.img);
+                            // Create a div element to display the playlists inside the left sidebar
+                            document.getElementById('left-sidebar')
+                            const playlistDiv = document.createElement('div');
+                            playlistDiv.classList.add('playlist');
+                            playlistDiv.style.border = '2px solid deepskyblue';
+                            playlistDiv.style.borderRadius = '20px';
+                            const playlistImage = document.createElement('img');
+                            playlistImage.src = playlist.img;
+                            playlistImage.alt = playlist.name;
+                            playlistImage.title = playlist.name;
+                            playlistImage.width = 64;
+                            playlistImage.style.float = 'left';
+                            playlistDiv.appendChild(playlistImage);
+                            const playlistText = document.createElement('div');
+                            playlistDiv.appendChild(playlistText);
+                            const playlistName = document.createElement('p');
+                            playlistName.style.fontWeight = 'bold';
+                            playlistName.textContent = playlist.name;
+                            playlistName.style.textAlign = 'right';
+                            playlistName.style.paddingRight = '30px';
+                            playlistName.style.paddingLeft = '10px';
+                            playlistName.style.fontSize = '1.4em';
+                            playlistText.appendChild(playlistName);
+                            const playlistDescription = document.createElement('span');
+                            playlistDescription.textContent = playlist.description;
+                            playlistDescription.style.paddingLeft = '10px';
+                            playlistDescription.style.fontSize = '0.8em';
+                            playlistDescription.style.marginBottom = '20px';
+                            playlistText.appendChild(playlistDescription);
+                            document.getElementById('left-sidebar').appendChild(playlistDiv);
 
-        // Example usage
-        createPlaylist('My playlist', 'img/bang.jpeg', 'This is my playlist', ['Bang', 'Blur']);
-        createPlaylist('My playlist 2', 'img/edamame.jpeg', 'This is my playlist 2', ['Edamame.mp3', 'songs/bang.mp3']);
+
+                            // Comprueba si playlist.songs es un array
+                            if (Array.isArray(playlist.songs)) {
+                                // Itera a través de cada canción en la playlist
+                                playlist.songs.forEach((song) => {
+                                    console.log(song);
+                                });
+                            } else {
+                                console.error('playlist.songs is not an array:', playlist.songs);
+                            }
+                        });
+                    } else {
+                        console.error('data.playlists is not an array:', data.playlists);
+                    }
+                });
+            }
 
         displayPlaylists();
     </script>
@@ -130,19 +172,6 @@
 
                 playlistNameInput.style.marginBottom = '10px';
 
-                const plalistImageInputText = document.createElement('span');
-                plalistImageInputText.textContent = 'Playlist Image';
-                playlistForm.appendChild(plalistImageInputText);
-
-                plalistImageInputText.style.marginBottom = '10px';
-
-                const playlistImageInput = document.createElement('input');
-                playlistImageInput.type = 'file';
-                playlistImageInput.accept = 'image/*';
-                playlistForm.appendChild(playlistImageInput);
-
-                playlistImageInput.style.marginBottom = '10px';
-
                 const playlistDescriptionInput = document.createElement('textarea');
                 playlistDescriptionInput.placeholder = 'Playlist Description';
                 playlistForm.appendChild(playlistDescriptionInput);
@@ -179,20 +208,10 @@
                 createPlaylistButton.addEventListener('click', (event) => {
                     event.preventDefault();
                     const playlistName = playlistNameInput.value;
-                    const playlistImage = playlistImageInput.files[0];
-                    //save the image in the 'playlist_img' folder (this have to work on local test too)
-                    const formData = new FormData();
-                    formData.append('playlistImage', playlistImage);
-                    fetch('playlist_img/upload.php', {
-                        method: 'POST',
-                        body: formData
-                    })
-                        .then((response) => response.text())
-                        .then((imagePath) => {
-                            console.log(imagePath);
-                        });
-                        
 
+                    //get a random image from the playlist_img folder from playlist1.jpeg to playlist4.jpeg
+                    const randomImage = Math.floor(Math.random() * 4) + 1;
+                    const playlistImage = `playlist_img/playlist${randomImage}.svg`;
                     const playlistDescription = playlistDescriptionInput.value;
                     const playlistSongs = Array.from(playlistSongsSelect.selectedOptions).map((option) => option.value);
                     playlistFormDiv.remove();
@@ -203,7 +222,7 @@
                 playlistFormDiv.appendChild(playlistForm);
                 main.appendChild(playlistFormDiv);
 
-                createPlaylist(playlistName, playlistImage, playlistDescription, playlistSongs);
+                createPlaylist(playlistNameInput.value, 'playlist_img/playlist1.svg', playlistDescriptionInput.value, ['songs/edamame.mp3', 'songs/bang.mp3'])
                 displayPlaylists();
             });
             leftSidebar.appendChild(createPlaylistButton);
