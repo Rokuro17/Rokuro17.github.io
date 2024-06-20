@@ -1,0 +1,26 @@
+.montserrat-normal {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+  
+.montserrat-bold {
+      font-family: "Montserrat", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 800;
+      font-style: normal;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin: 0;
+    padding: 0;
+    /*uppercase text*/
+    text-transform: uppercase;
+    text-align: center;
+    /*linear gradient from left to right, 20% first color*/
+    background: linear-gradient(to right, deepskyblue, purple, purple, purple, purple);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

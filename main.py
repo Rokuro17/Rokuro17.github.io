@@ -40,13 +40,14 @@ def main():
         # Si el archivo no existe, inicializa una lista vacía
         playlists = []
 
-    # Añade el nuevo objeto a la lista
+    # Añade el nuevo objeto a la lista y añadele un id unico
     if playlistName.strip():
         playlists.append({
             'playlistName': str(playlistName),
             'playlistImage': playlistImage,
             'playlistDescription': str(playlistDescription),
-            'playlistSongs': playlistSongs
+            'playlistSongs': playlistSongs,
+            'playlistId': str(time.time()).replace('.', '')
         })
 
         # Reescribe el archivo completo con la lista actualizada

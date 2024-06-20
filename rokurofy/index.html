@@ -86,7 +86,7 @@
                         playlistDiv.style.borderRadius = '20px';
                         const playlistImage = document.createElement('img');
                         playlistImage.src = playlist.playlistImage;
-                        playlistImage.alt = playlist.playlistName;
+                        playlistImage.alt = playlist.playlistId;
                         playlistImage.height = 50;
                         playlistImage.style.display = 'block';
                         playlistImage.style.margin = '0 auto';
@@ -99,6 +99,8 @@
                         playlistName.style.justifyContent = 'center';
                         playlistDiv.appendChild(playlistImage);
                         playlistDiv.appendChild(playlistName);
+                        playlistDiv.style.margin = '5px';
+                        playlistDiv.style.cursor = 'pointer';
                         leftSidebar.appendChild(playlistDiv);
                     });
                 })
@@ -106,6 +108,23 @@
 
         displayPlaylists();
 
+        // Function to go to the playlist detail
+        //function goToPlaylist: the web is redirected to the playlist detail site, one for each playlist
+        function goToPlaylist(playlistName, playlistId) {
+            window.location.href = `playlist-detail.html?playlistId=${playlistId}`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('left-sidebar').addEventListener('click', (event) => {
+                const playlistDiv = event.target.closest('.playlist');
+                if (playlistDiv) {
+                    const playlistName = playlistDiv.querySelector('span').textContent;
+                    const playlistId = playlistDiv.querySelector('img').alt;
+                    const playlist = playlists.find((playlist) => playlist.playlistName === playlistName);
+                    goToPlaylist(playlistName, playlistId);
+                }
+            });
+        });
     </script>
     <script>
         function createPlaylistGUI() {

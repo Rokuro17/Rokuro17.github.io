@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rokurofy</title>
+    <link rel="stylesheet" href="css/playlist-detail.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <h1 id="playlistName" class="montserrat-bold"></h1>
+    <p id="playlistDescription" class="montserrat-normal"></p>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const playlistId = urlParams.get('playlistId');
+
+            // Asegúrate de que loadPlaylistDetails sea una función asíncrona y espera su resultado antes de continuar
+            const playlistDetails = await loadPlaylistDetails(playlistId);
+
+            // Ahora playlistDetails debería estar definido, si el ID existe en los datos
+            if (playlistDetails) {
+                displayPlaylistDetails(playlistDetails);
+            } else {
+                console.error('Playlist no encontrada');
+                // Manejar el caso en que la playlist no se encuentra, por ejemplo, mostrando un mensaje al usuario
+            }
+        });
+
+        async function loadPlaylistDetails(playlistId) {
+            try {
+                const response = await fetch('playlists.json');
+                const playlists = await response.json();
+                const playlistDetails = playlists.find(playlist => playlist.playlistId === playlistId);
+                return playlistDetails;
+            } catch (error) {
+                console.error('Error al cargar los detalles de la playlist:', error);
+                // Manejar el error, por ejemplo, mostrando un mensaje al usuario
+            }
+        }
+
+        function displayPlaylistDetails(playlistDetails) {
+            document.getElementById('playlistName').textContent = playlistDetails.playlistName;
+            document.getElementById('playlistDescription').textContent = playlistDetails.playlistDescription;
+            // Continúa para incluir otros detalles como la imagen de la playlist, canciones, etc.
+        }
+    </script>
+</body>
+</html>
