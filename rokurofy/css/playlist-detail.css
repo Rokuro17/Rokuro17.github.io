@@ -12,15 +12,62 @@
       font-style: normal;
 }
 
-h1 {
-    font-size: 2.5em;
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    /*summer gradient for the background*/
+    background: linear-gradient(45deg, #ff758c, #ff7eb3, #b48def, #6f96f3, #59e4f7);
+    background-size: 400% 800%;
+    animation: gradient 5s ease infinite;
+
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    25% {
+        background-position: 50% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    75% {
+        background-position: 50% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+header {
+    background-color: white;
+    padding: 10px 0;
+    text-align: center;
+    align-items: center;
+}
+
+header span {
+    color: white;
+    font-size: 24px;
+}
+
+#playlistName {
+    font-size: 5em;
     margin: 0;
     padding: 0;
     /*uppercase text*/
     text-transform: uppercase;
     text-align: center;
-    /*linear gradient from left to right, 20% first color*/
-    background: linear-gradient(to right, deepskyblue, purple, purple, purple, purple);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    /*linear gradient from left to right, summer gradient with 5 colors*/
+    color: #59e4f7;
+}
+
+#playlistDescription {
+    font-size: 1.5em;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #59e4f7;
 }
