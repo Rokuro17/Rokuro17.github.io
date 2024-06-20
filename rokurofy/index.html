@@ -53,7 +53,7 @@
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `playlistName=${encodeURIComponent(playlistName)}&playlistImage=${encodeURIComponent(playlistImage)}&playlistDescription=${encodeURIComponent(playlistDescription)}&playlistSongs=${encodeURIComponent(JSON.stringify(playlistSongs))}`,
+                    body: `playlist=${encodeURIComponent(playlistName)}&playlistImage=${encodeURIComponent(playlistImage)}&playlistDescription=${encodeURIComponent(playlistDescription)}&playlistSongs=${encodeURIComponent(JSON.stringify(playlistSongs))}`,
                 })
                     .then((response) => response.json())
                     .then((data) => {
@@ -74,61 +74,38 @@
             fetch('playlists.json')
                 .then((response) => response.json())
                 .then((data) => {
-                    // Comprueba si data.playlists es un array
-                    if (Array.isArray(data.playlists)) {
-                        // Itera a través de cada playlist en el array
-                        data.playlists.forEach((playlist) => {
-                            console.log(playlist.name);
-                            console.log(playlist.img);
-                            // Create a div element to display the playlists inside the left sidebar
-                            document.getElementById('left-sidebar')
-                            const playlistDiv = document.createElement('div');
-                            playlistDiv.classList.add('playlist');
-                            playlistDiv.style.border = '2px solid deepskyblue';
-                            playlistDiv.style.borderRadius = '20px';
-                            const playlistImage = document.createElement('img');
-                            playlistImage.src = playlist.img;
-                            playlistImage.alt = playlist.name;
-                            playlistImage.title = playlist.name;
-                            playlistImage.width = 64;
-                            playlistImage.style.float = 'left';
-                            playlistDiv.appendChild(playlistImage);
-                            const playlistText = document.createElement('div');
-                            playlistDiv.appendChild(playlistText);
-                            const playlistName = document.createElement('p');
-                            playlistName.style.fontWeight = 'bold';
-                            playlistName.textContent = playlist.name;
-                            playlistName.style.textAlign = 'right';
-                            playlistName.style.paddingRight = '30px';
-                            playlistName.style.paddingLeft = '10px';
-                            playlistName.style.fontSize = '1.4em';
-                            playlistText.appendChild(playlistName);
-                            const playlistDescription = document.createElement('span');
-                            playlistDescription.textContent = playlist.description;
-                            playlistDescription.style.paddingLeft = '10px';
-                            playlistDescription.style.fontSize = '0.8em';
-                            playlistDescription.style.marginBottom = '20px';
-                            playlistText.appendChild(playlistDescription);
-                            document.getElementById('left-sidebar').appendChild(playlistDiv);
-
-
-                            // Comprueba si playlist.songs es un array
-                            if (Array.isArray(playlist.songs)) {
-                                // Itera a través de cada canción en la playlist
-                                playlist.songs.forEach((song) => {
-                                    console.log(song);
-                                });
-                            } else {
-                                console.error('playlist.songs is not an array:', playlist.songs);
-                            }
-                        });
-                    } else {
-                        console.error('data.playlists is not an array:', data.playlists);
-                    }
-                });
+                    // Asume directamente que data es un array y lo itera
+                    data.forEach((playlist) => {
+                        console.log(playlist.playlistName);
+                        console.log(playlist.playlistImage);
+                        // Crea un elemento div para mostrar las playlists en el sidebar izquierdo
+                        const leftSidebar = document.getElementById('left-sidebar');
+                        const playlistDiv = document.createElement('div');
+                        playlistDiv.classList.add('playlist');
+                        playlistDiv.style.border = '2px solid deepskyblue';
+                        playlistDiv.style.borderRadius = '20px';
+                        const playlistImage = document.createElement('img');
+                        playlistImage.src = playlist.playlistImage;
+                        playlistImage.alt = playlist.playlistName;
+                        playlistImage.height = 50;
+                        playlistImage.style.display = 'block';
+                        playlistImage.style.margin = '0 auto';
+                        const playlistName = document.createElement('span');
+                        playlistName.textContent = playlist.playlistName;
+                        playlistName.style.marginLeft = '10px';
+                        playlistName.style.marginBottom = '10px';
+                        playlistName.style.display = 'flex';
+                        playlistName.style.alignItems = 'center';
+                        playlistName.style.justifyContent = 'center';
+                        playlistDiv.appendChild(playlistImage);
+                        playlistDiv.appendChild(playlistName);
+                        leftSidebar.appendChild(playlistDiv);
+                    });
+                })
             }
 
         displayPlaylists();
+
     </script>
     <script>
         function createPlaylistGUI() {

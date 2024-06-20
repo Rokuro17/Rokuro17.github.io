@@ -1,12 +1,44 @@
-{
-    "playlists": [
-        {
-            "name": "Pito",
-            "img": "playlist_img/playlist1.svg",
-            "description": "This is a playlist for Pito",
-            "songs": [
-                "song1","song2","song3","song4","song5"
-            ]
-        }
-    ]
-}
+[
+    {
+        "playlistName": "jikj",
+        "playlistImage": "playlist_img/playlist1.svg",
+        "playlistDescription": "iomkl jkjk",
+        "playlistSongs": "[\"songs/edamame.mp3\",\"songs/bang.mp3\"]"
+    },
+    {
+        "playlistName": "KLIK",
+        "playlistImage": "playlist_img/playlist3.svg",
+        "playlistDescription": "SHJH",
+        "playlistSongs": "[\"songs/undefined\"]"
+    },
+    {
+        "playlistName": "wichiswichis",
+        "playlistImage": "playlist_img/playlist1.svg",
+        "playlistDescription": "si",
+        "playlistSongs": "[\"songs/undefined\"]"
+    },
+    {
+        "playlistName": "jqwerty",
+        "playlistImage": "playlist_img/playlist2.svg",
+        "playlistDescription": "asdfg",
+        "playlistSongs": "[\"songs/undefined\"]"
+    },
+    {
+        "playlistName": "pito",
+        "playlistImage": "playlist_img/playlist4.svg",
+        "playlistDescription": "pitopitopi",
+        "playlistSongs": "[\"songs/undefined\"]"
+    },
+    {
+        "playlistName": "test",
+        "playlistImage": "playlist_img/playlist3.svg",
+        "playlistDescription": "tested test",
+        "playlistSongs": "[\"songs/undefined\"]"
+    },
+    {
+        "playlistName": "tjkjq",
+        "playlistImage": "playlist_img/playlist1.svg",
+        "playlistDescription": "jksc",
+        "playlistSongs": "[\"songs/undefined\"]"
+    }
+]

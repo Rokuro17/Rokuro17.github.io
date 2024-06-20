@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, redirect
 app = Flask(__name__, static_url_path='', static_folder='.')
 import logging
 import time
@@ -24,18 +24,41 @@ def main():
     logging.info(request.args)
     logging.info(request.form)
 
-    #save the data received from the index.html through the POST request with URI component on playlist.json
-    playlistName = request.args.get('playlistName')
-    playlistImage = request.args.get('playlistImage')
-    playlistDescription = request.args.get('playlistDescription')
-    playlistSongs = request.args.get('playlistSongs')
+    #save the data received from the index.html through the POST request with URI component and this structure `playlist=${encodeURIComponent(playlistName)}&playlistImage=${encodeURIComponent(playlistImage)}&playlistDescription=${encodeURIComponent(playlistDescription)}&playlistSongs=${encodeURIComponent(JSON.stringify(playlistSongs))}`, on playlist.json
+    playlistName = request.form.get('playlist')
+    playlistImage = request.form.get('playlistImage')
+    playlistDescription = request.form.get('playlistDescription')
+    playlistSongs = request.form.get('playlistSongs')
 
-    with open('playlist.json', 'w') as f:
-        #append the data to the file
-        f.write(json.dumps({'playlistName': playlistName, 'playlistImage': playlistImage, 'playlistDescription': playlistDescription, 'playlistSongs': playlistSongs}))
+    file_path = 'rokurofy/playlists.json'
 
-        return jsonify({'response': 'Playlist created successfully!'})
+    # Intenta leer el archivo existente y cargarlo como una lista
+    try:
+        with open(file_path, 'r') as file:
+            playlists = json.load(file)
+    except FileNotFoundError:
+        # Si el archivo no existe, inicializa una lista vacía
+        playlists = []
 
+    # Añade el nuevo objeto a la lista
+    if playlistName.strip():
+        playlists.append({
+            'playlistName': str(playlistName),
+            'playlistImage': playlistImage,
+            'playlistDescription': str(playlistDescription),
+            'playlistSongs': playlistSongs
+        })
+
+        # Reescribe el archivo completo con la lista actualizada
+        with open(file_path, 'w') as file:
+            json.dump(playlists, file, indent=4)  # El argumento indent hace que el JSON sea más legible
+
+        print("Playlist added successfully")
+        return redirect
+    
+    else:
+        print("Playlist name is empty. Skipping addition")
+        return jsonify({'error': 'Playlist name is empty. Skipping addition'})
 
 
 if __name__ == '__main__':
