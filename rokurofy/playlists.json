@@ -33,5 +33,12 @@
         "playlistDescription": "Esta es una prueba de playlist",
         "playlistSongs": "[\"songs/undefined\"]",
         "playlistId": "1718904904301279"
+    },
+    {
+        "playlistName": "cocaina",
+        "playlistImage": "playlist_img/playlist3.svg",
+        "playlistDescription": "como cae del cielo",
+        "playlistSongs": "[\"songs/undefined\"]",
+        "playlistId": "1718905564216176"
     }
 ]
