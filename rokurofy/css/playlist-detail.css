@@ -18,7 +18,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     /*summer gradient for the background*/
     background: linear-gradient(45deg, #ff758c, #ff7eb3, #b48def, #6f96f3, #59e4f7);
-    background-size: 400% 800%;
+    background-size: 1600% 900%;
     animation: gradient 5s ease infinite;
 
 }
