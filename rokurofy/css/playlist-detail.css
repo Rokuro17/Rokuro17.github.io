@@ -17,9 +17,9 @@ body {
     padding: 0;
     font-family: 'Montserrat', sans-serif;
     /*summer gradient for the background*/
-    background: linear-gradient(45deg, #ff758c, #ff7eb3, #b48def, #6f96f3, #59e4f7);
-    background-size: 1600% 900%;
-    background-repeat: no-repeat;
+    background: linear-gradient(45deg, #ff758c, #b48def, #59e4f7);
+    background-size: 100% 2000%;
+    background-repeat: repeat;
     animation: gradient 5s ease infinite;
 
 }
