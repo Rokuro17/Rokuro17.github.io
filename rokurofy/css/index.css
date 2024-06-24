@@ -45,7 +45,7 @@ header span {
     margin-right: 1%;
     padding: 10px;
     border: 1px solid deepskyblue;
-    border-radius: 5px;
+    border-radius: 60px;
     font-size: 16px;
 }
 
@@ -55,7 +55,7 @@ header span {
     background-color: deepskyblue;
     color: white;
     border: 1px solid deepskyblue;
-    border-radius: 15px;
+    border-radius: 60px;
     font-size: 16px;
 }
 
@@ -201,22 +201,41 @@ header span {
     display: flex;
     flex-direction: column;
     padding: 10px;
-    background-color: rgb(228, 228, 228);
-    border-right: 2px solid deepskyblue;
     left: 0;
     top: 10%
 }
 
-#right-sidebar {
-    width: 20%;
-    height: 75vh;
-    position: fixed;
+.playlist {
     display: flex;
-    flex-direction: column;
-    padding: 10px;
-    background-color: rgb(228, 228, 228);
-    border-left: 2px solid deepskyblue;
-    /* place the right sidebar to the right*/
-    right: 0;
-    top: 10%;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.playlist img {
+    width: 50px;
+    height: 50px;
+    border-radius: 60px;
+    left: 0;
+    margin-left: 5px;
+}
+
+.playlist span {
+    font-size: 1.5em;
+    margin-right: 20px;
+}
+
+#create-playlist-btn {
+    width: 100%;
+    height: 50px;
+    background-color: deepskyblue;
+    color: white;
+    border: 1px solid deepskyblue;
+    border-radius: 60px;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }

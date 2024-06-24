@@ -4,7 +4,6 @@ import logging
 import time
 import json
 import os
-import csv
 
 root_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -28,7 +27,6 @@ def main():
     playlistName = request.form.get('playlist')
     playlistImage = request.form.get('playlistImage')
     playlistDescription = request.form.get('playlistDescription')
-    playlistSongs = request.form.get('playlistSongs')
 
     file_path = 'rokurofy/playlists.json'
 
@@ -39,14 +37,15 @@ def main():
     except FileNotFoundError:
         # Si el archivo no existe, inicializa una lista vacía
         playlists = []
-
+        
+        
     # Añade el nuevo objeto a la lista y añadele un id unico
-    if playlistName.strip():
+    if playlistName != '':
         playlists.append({
             'playlistName': str(playlistName),
             'playlistImage': playlistImage,
             'playlistDescription': str(playlistDescription),
-            'playlistSongs': playlistSongs,
+            'playlistSongs': '',
             'playlistId': str(time.time()).replace('.', '')
         })
 
@@ -55,7 +54,7 @@ def main():
             json.dump(playlists, file, indent=4)  # El argumento indent hace que el JSON sea más legible
 
         print("Playlist added successfully")
-        return redirect
+        return jsonify({'success': 'Playlist added successfully'})
     
     else:
         print("Playlist name is empty. Skipping addition")

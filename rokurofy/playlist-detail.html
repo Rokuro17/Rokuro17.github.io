@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rokurofy</title>
     <link rel="stylesheet" href="css/playlist-detail.css">
+    <link rel="stylesheet" href="css/playlists.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -12,6 +13,7 @@
 <body>
     <h1 id="playlistName" class="montserrat-bold"></h1>
     <p id="playlistDescription" class="montserrat-bold"></p>
+    <div id="playlist-songs"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
@@ -28,6 +30,7 @@
                 console.error('Playlist no encontrada');
                 // Manejar el caso en que la playlist no se encuentra, por ejemplo, mostrando un mensaje al usuario
             }
+            displayPlaylistSongs(playlistId);
         });
 
         async function loadPlaylistDetails(playlistId) {
@@ -47,6 +50,55 @@
             document.getElementById('playlistDescription').textContent = playlistDetails.playlistDescription;
             // Continúa para incluir otros detalles como la imagen de la playlist, canciones, etc.
         }
+
+
+        function displayPlaylistSongs(playlistId) {
+            const playlistSongsContainer = document.getElementById('playlist-songs');
+            if (!playlistSongsContainer) {
+                console.error('El contenedor de canciones de la playlist no se encontró');
+                return;
+            }
+
+            // Cargar el archivo JSON de playlists
+            fetch('/rokurofy/playlists.json')
+                .then(response => response.json())
+                .then(playlists => {
+                    // Encontrar la playlist específica por su playlistId
+                    const playlist = playlists.find(p => p.playlistId === playlistId);
+                    if (!playlist || !playlist.playlistSongs || playlist.playlistSongs.length === 0) {
+                        console.error('Playlist no encontrada o no tiene canciones');
+                        return;
+                    }
+
+                    // Cargar el archivo JSON de canciones
+                    fetch('/rokurofy/songs/songs.json')
+                        .then(response => response.json())
+                        .then(songs => {
+                            // Filtrar las canciones que están en la playlist
+                            const filteredSongs = songs.filter(song => playlist.playlistSongs.includes(song.song_name));
+
+                            // Mostrar las canciones filtradas
+                            filteredSongs.forEach(song => {
+                                const songElement = document.createElement('div');
+                                songElement.classList.add('song');
+                                songElement.innerHTML = `
+                                    <img src="${song.album_cover}" alt="${song.song_name}">
+                                    <div class="song-details">
+                                        <h2>${song.song_name}</h2>
+                                        <p>${song.artist}</p>
+                                    </div>
+                                `;
+                                playlistSongsContainer.appendChild(songElement);
+                                console.log('Canción cargada:', song.song_name);
+                            });
+                        })
+                        .catch(error => console.error('Error al cargar los metadatos de las canciones:', error));
+                })
+                .catch(error => console.error('Error al cargar playlists:', error));
+        }
+
+        // Llamar a displayPlaylistSongs() con el ID de la playlist deseada cuando la página esté lista
+        document.addEventListener('DOMContentLoaded', () => displayPlaylistSongs('playlistId'));
     </script>
 </body>
 </html>

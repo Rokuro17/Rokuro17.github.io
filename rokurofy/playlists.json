@@ -3,42 +3,29 @@
         "playlistName": "Pito",
         "playlistImage": "playlist_img/playlist2.svg",
         "playlistDescription": "Pitopi",
-        "playlistSongs": "[\"songs/undefined\",\"songs/undefined\"]",
+        "playlistSongs": [
+            "Hazel Eyes"
+        ],
         "playlistId": "171890113474579"
-    },
-    {
-        "playlistName": "my chill",
-        "playlistImage": "playlist_img/playlist4.svg",
-        "playlistDescription": "charlotte",
-        "playlistSongs": "[\"songs/undefined\",\"songs/undefined\"]",
-        "playlistId": "1718902842253294"
-    },
-    {
-        "playlistName": "charlotte playlist",
-        "playlistImage": "playlist_img/playlist3.svg",
-        "playlistDescription": "2024",
-        "playlistSongs": "[\"songs/undefined\"]",
-        "playlistId": "1718903645645622"
     },
     {
         "playlistName": "Hola!",
         "playlistImage": "playlist_img/playlist4.svg",
         "playlistDescription": "que tal?",
-        "playlistSongs": "[\"songs/undefined\"]",
+        "playlistSongs": [
+            "edamame",
+            "Bang!"
+        ],
         "playlistId": "1718904823956612"
     },
     {
         "playlistName": "Test",
         "playlistImage": "playlist_img/playlist4.svg",
         "playlistDescription": "Esta es una prueba de playlist",
-        "playlistSongs": "[\"songs/undefined\"]",
+        "playlistSongs": [
+            "Numb Little Bug",
+            "PERCEPTION CHECK"
+        ],
         "playlistId": "1718904904301279"
-    },
-    {
-        "playlistName": "cocaina",
-        "playlistImage": "playlist_img/playlist3.svg",
-        "playlistDescription": "como cae del cielo",
-        "playlistSongs": "[\"songs/undefined\"]",
-        "playlistId": "1718905564216176"
     }
 ]

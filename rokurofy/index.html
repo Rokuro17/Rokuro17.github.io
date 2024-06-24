@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/playlists.css">
+    <link rel="stylesheet" href="css/playlist-detail.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -20,21 +22,21 @@
 
     <!-- Barra lateral izquierda para las listas de reproducción -->
     <aside id="left-sidebar">
+        <button id="create-playlist-btn" onclick="CreatePlaylistPopup()">
+            <i class="fa-solid fa-plus"></i>
+            <span>Crear lista de reproducción</span>
+        </button>
         <!-- Aquí puedes agregar el contenido de las listas de reproducción -->
+         <div id="playlists-sidebar-div"></div>
     </aside>
 
     <main>
         <div id="search">
             <input type="text" id="search-bar" placeholder="Buscar canciones, artistas o álbumes">
-            <button id="search-button"><i class="fa-solid fa-search"></i></button>
+            <button id="search-button" onclick="showResults()"><i class="fa-solid fa-search"></i></button>
         </div>
         <div id="results"></div>
     </main>
-
-    <!-- Barra lateral derecha para detalles adicionales de la canción y el artista -->
-    <aside id="right-sidebar" class="hideable">
-        <!-- Aquí puedes agregar el contenido de los detalles de la canción y el artista -->
-    </aside>
 
     <!-- Sección inferior para los controles del reproductor de música -->
     <footer id="music-player-controls">
@@ -45,7 +47,7 @@
         let playlists = [];
 
         // Function to save the playlist in playlists.json using fetch to a flask server running on port 5000 as main.py in python folder
-        function createPlaylist(playlistName, playlistImage, playlistDescription, playlistSongs) {
+        function createPlaylist(playlistName, playlistImage, playlistDescription) {
             // Send the playlist data to the server trhough a POST request with URIcomponent
             try {
                 fetch('/rokurofy/main.py', {
@@ -53,7 +55,7 @@
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `playlist=${encodeURIComponent(playlistName)}&playlistImage=${encodeURIComponent(playlistImage)}&playlistDescription=${encodeURIComponent(playlistDescription)}&playlistSongs=${encodeURIComponent(JSON.stringify(playlistSongs))}`,
+                    body: `playlist=${encodeURIComponent(playlistName)}&playlistImage=${encodeURIComponent(playlistImage)}&playlistDescription=${encodeURIComponent(playlistDescription)}`,
                 })
                     .then((response) => response.json())
                     .then((data) => {
@@ -67,8 +69,8 @@
 
         // Function to display the playlists
         function displayPlaylists() {
-            const leftSidebar = document.getElementById('left-sidebar');
-            leftSidebar.innerHTML = '';
+            const leftSidebarDiv = document.getElementById('playlists-sidebar-div');
+            leftSidebarDiv.innerHTML = '';
 
             // get the info of the playlist from the playlists.json file
             fetch('playlists.json')
@@ -79,29 +81,21 @@
                         console.log(playlist.playlistName);
                         console.log(playlist.playlistImage);
                         // Crea un elemento div para mostrar las playlists en el sidebar izquierdo
-                        const leftSidebar = document.getElementById('left-sidebar');
+                        const leftSidebarDiv = document.getElementById('playlists-sidebar-div');
                         const playlistDiv = document.createElement('div');
                         playlistDiv.classList.add('playlist');
-                        playlistDiv.style.border = '2px solid deepskyblue';
-                        playlistDiv.style.borderRadius = '20px';
+                        playlistDiv.style.border = '2px solid rgba(233, 56, 243, 0.688)';
+                        playlistDiv.style.backgroundColor = 'rgba(75, 0, 82, 0.263';
+                        playlistDiv.style.borderRadius = '60px';
                         const playlistImage = document.createElement('img');
                         playlistImage.src = playlist.playlistImage;
                         playlistImage.alt = playlist.playlistId;
                         playlistImage.height = 50;
-                        playlistImage.style.display = 'block';
-                        playlistImage.style.margin = '0 auto';
                         const playlistName = document.createElement('span');
                         playlistName.textContent = playlist.playlistName;
-                        playlistName.style.marginLeft = '10px';
-                        playlistName.style.marginBottom = '10px';
-                        playlistName.style.display = 'flex';
-                        playlistName.style.alignItems = 'center';
-                        playlistName.style.justifyContent = 'center';
                         playlistDiv.appendChild(playlistImage);
                         playlistDiv.appendChild(playlistName);
-                        playlistDiv.style.margin = '5px';
-                        playlistDiv.style.cursor = 'pointer';
-                        leftSidebar.appendChild(playlistDiv);
+                        leftSidebarDiv.appendChild(playlistDiv);
                     });
                 })
             }
@@ -127,104 +121,57 @@
         });
     </script>
     <script>
-        function createPlaylistGUI() {
-            //add a button to create a playlist
-            const leftSidebar = document.getElementById('left-sidebar');
-            const createPlaylistButton = document.createElement('button');
-            createPlaylistButton.textContent = 'Create Playlist';
-            createPlaylistButton.style.margin = '10px';
-            createPlaylistButton.style.padding = '10px';
-            createPlaylistButton.style.border = '1px solid #ccc';
-            createPlaylistButton.style.borderRadius = '10px';
-            createPlaylistButton.style.cursor = 'pointer';
-            createPlaylistButton.addEventListener('click', () => {
-                //create a popup form to create a playlist without prompt method
-                const main = document.querySelector('main');
-                const playlistFormDiv = document.createElement('div');
-                playlistFormDiv.id = 'playlist-form';
-                const playlistForm = document.createElement('form');
-                playlistForm.style.display = 'flex';
-                playlistForm.style.flexDirection = 'column';
-                playlistForm.style.padding = '10px';
-                playlistForm.style.border = '1px solid #ccc';
-                playlistForm.style.borderRadius = '10px';
-                playlistForm.style.margin = '10px';
-                playlistForm.style.width = '200px';
-                playlistForm.style.position = 'absolute';
-                playlistForm.style.backgroundColor = 'white';
-                playlistForm.style.zIndex = '1';
-                playlistForm.style.top = '50%';
-                playlistForm.style.left = '50%';
-                playlistForm.style.transform = 'translate(-50%, -50%)';
-
-                const playlistFormTitle = document.createElement('h2');
-                playlistFormTitle.textContent = 'Create Playlist';
-                playlistForm.appendChild(playlistFormTitle);
-
-                const playlistNameInput = document.createElement('input');
-                playlistNameInput.type = 'text';
-                playlistNameInput.placeholder = 'Playlist Name';
-                playlistForm.appendChild(playlistNameInput);
-
-                playlistNameInput.style.marginBottom = '10px';
-
-                const playlistDescriptionInput = document.createElement('textarea');
-                playlistDescriptionInput.placeholder = 'Playlist Description';
-                playlistForm.appendChild(playlistDescriptionInput);
-
-                playlistDescriptionInput.style.marginBottom = '10px';
-
-                //select songs from the stored songs in the 'songs' folder
-                const playlistSongsSelect = document.createElement('select');
-                playlistSongsSelect.multiple = true;
-                playlistSongsSelect.style.marginBottom = '10px';
-                //get the songs from the 'songs' folder
-                fetch('songs/songs.json')
-                    .then((response) => response.json())
-                    .then((songs) => {
-                        songs.forEach((song) => {
-                            const songOption = document.createElement('option');
-                            songOption.value = `songs/${song.file}`;
-                            songOption.textContent = song.song_name;
-                            playlistSongsSelect.appendChild(songOption);
-                        });
-                    });
-                playlistForm.appendChild(playlistSongsSelect);
-
-                const createPlaylistButton = document.createElement('button');
-                createPlaylistButton.textContent = 'Create Playlist';
-                createPlaylistButton.style.padding = '10px';
-                createPlaylistButton.style.border = '1px solid #ccc';
-                createPlaylistButton.style.borderRadius = '10px';
-                createPlaylistButton.style.cursor = 'pointer';
-                createPlaylistButton.style.backgroundColor = 'white';
-
-                playlistForm.appendChild(createPlaylistButton);
-
-                createPlaylistButton.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    const playlistName = playlistNameInput.value;
-
-                    //get a random image from the playlist_img folder from playlist1.jpeg to playlist4.jpeg
-                    const randomImage = Math.floor(Math.random() * 4) + 1;
-                    const playlistImage = `playlist_img/playlist${randomImage}.svg`;
-                    const playlistDescription = playlistDescriptionInput.value;
-                    const playlistSongs = Array.from(playlistSongsSelect.selectedOptions).map((option) => option.value);
-                    playlistFormDiv.remove();
-                    createPlaylist(playlistName, playlistImage, playlistDescription, playlistSongs);
-                    displayPlaylists();
-                });
-
-                playlistFormDiv.appendChild(playlistForm);
-                main.appendChild(playlistFormDiv);
-
-                createPlaylist(playlistNameInput.value, 'playlist_img/playlist1.svg', playlistDescriptionInput.value, ['songs/edamame.mp3', 'songs/bang.mp3'])
+        function CreatePlaylistPopup() {
+            const popup = document.createElement('div');
+            popup.id = 'popup';
+            popup.style.position = 'fixed';
+            popup.style.top = '0';
+            popup.style.left = '0';
+            popup.style.width = '100%';
+            popup.style.height = '100%';
+            popup.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+            popup.style.display = 'flex';
+            popup.style.justifyContent = 'center';
+            popup.style.alignItems = 'center';
+            document.body.appendChild(popup);
+            const popupForm = document.createElement('form');
+            popupForm.style.backgroundColor = 'white';
+            popupForm.style.padding = '20px';
+            popupForm.style.borderRadius = '10px';
+            popupForm.style.display = 'flex';
+            popupForm.style.flexDirection = 'column';
+            popupForm.style.gap = '10px';
+            popup.appendChild(popupForm);
+            const playlistNameInput = document.createElement('input');
+            playlistNameInput.type = 'text';
+            playlistNameInput.placeholder = 'Nombre de la lista de reproducción';
+            playlistNameInput.required = true;
+            popupForm.appendChild(playlistNameInput);
+            const playlistDescriptionInput = document.createElement('textarea');
+            playlistDescriptionInput.placeholder = 'Descripción de la lista de reproducción';
+            playlistDescriptionInput.required = false
+            popupForm.appendChild(playlistDescriptionInput);
+            const createButton = document.createElement('button');
+            createButton.type = 'submit';
+            createButton.textContent = 'Crear lista de reproducción';
+            createButton.style.backgroundColor = 'deepskyblue';
+            createButton.style.color = 'white';
+            createButton.style.border = 'none';
+            createButton.style.borderRadius = '5px';
+            createButton.style.padding = '10px';
+            createButton.style.cursor = 'pointer';
+            popupForm.appendChild(createButton);
+            popupForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                const playlistName = playlistNameInput.value;
+                randomImage = Math.floor(Math.random() * 3) + 1;
+                const playlistImage = `playlist_img/playlist${randomImage}.svg`;
+                const playlistDescription = playlistDescriptionInput.value;
+                createPlaylist(playlistName, playlistImage, playlistDescription);
+                popup.remove();
                 displayPlaylists();
             });
-            leftSidebar.appendChild(createPlaylistButton);
-
         }
-        createPlaylistGUI();
     </script>
     <script>
         function showPlaylistDetail(playlistImage, playlistName, playlistDescription, playlistSongs) {
@@ -264,6 +211,60 @@
             });
             playlistSongsElement.style.listStyleType = 'none';
             rightSidebar.appendChild(playlistSongsElement);
+        }
+    </script>
+    <script>
+        //show in the main element all the songs that match the search or if theres no search, show all the songs
+        //by default show all the songs
+        fetch('songs/songs.json')
+            .then((response) => response.json())
+            .then((songs) => {
+                const results = document.getElementById('results');
+                songs.forEach((song) => {
+                    const songElement = document.createElement('div');
+                    songElement.classList.add('song_result');
+                    songElement.innerHTML = `
+                        <img src="${song.album_cover}" alt="${song.song_name}">
+                        <div class="song-details">
+                            <h3>${song.song_name}</h3>
+                            <p>${song.artist}</p>
+                        </div>
+                    `;
+                    songElement.addEventListener('click', () => {
+                        showPlaylistDetail(song.album_cover, song.song_name, song.artist, [song.file]);
+                    });
+                    results.appendChild(songElement);
+                });
+            });
+
+
+        function showResults() {
+            const searchTerm = document.getElementById('search-bar').value;
+            const results = document.getElementById('results');
+            results.innerHTML = '';
+
+            fetch('songs/songs.json')
+                .then((response) => response.json())
+                .then((songs) => {
+                    songs.forEach((song) => {
+                        if (song.song_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            song.artist.toLowerCase().includes(searchTerm.toLowerCase())) {
+                            const songElement = document.createElement('div');
+                            songElement.classList.add('song');
+                            songElement.innerHTML = `
+                                <img src="${song.album_cover}" alt="${song.song_name}">
+                                <div class="song-details">
+                                    <h2>${song.song_name}</h2>
+                                    <p>${song.artist}</p>
+                                </div>
+                            `;
+                            songElement.addEventListener('click', () => {
+                                showPlaylistDetail(song.album_cover, song.song_name, song.artist, [song.file]);
+                            });
+                            results.appendChild(songElement);
+                        }
+                    });
+                });
         }
     </script>
 </body>
