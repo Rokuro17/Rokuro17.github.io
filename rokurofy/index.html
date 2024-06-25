@@ -173,46 +173,7 @@
             });
         }
     </script>
-    <script>
-        function showPlaylistDetail(playlistImage, playlistName, playlistDescription, playlistSongs) {
-            const rightSidebar = document.getElementById('right-sidebar');
-            rightSidebar.innerHTML = '';
-
-            const playlistImageElement = document.createElement('img');
-            playlistImageElement.src = playlistImage; // Cambiado de playlistImage.src a playlistImage
-            playlistImageElement.alt = playlistName; // Cambiado de playlistName.textContent a playlistName
-            playlistImageElement.width = 100;
-            playlistImageElement.style.borderRadius = '10px';
-            rightSidebar.appendChild(playlistImageElement);
-
-            const playlistNameElement = document.createElement('h2');
-            //check the song name in the songs.json file
-            fetch('songs/songs.json')
-                .then((response) => response.json())
-                .then((songs) => {
-                    songs.forEach((song) => {
-                        if (playlistSongs.includes(`songs/${song.file}`)) {
-                            const songName = song.song_name;
-                            playlistNameElement.textContent = songName;
-                        }
-                    });
-                });
-            rightSidebar.appendChild(playlistNameElement);
-
-            const playlistDescriptionElement = document.createElement('p');
-            playlistDescriptionElement.textContent = playlistDescription;
-            rightSidebar.appendChild(playlistDescriptionElement);
-
-            const playlistSongsElement = document.createElement('ul');
-            playlistSongs.forEach((song) => {
-                const songElement = document.createElement('li');
-                songElement.textContent = song;
-                playlistSongsElement.appendChild(songElement);
-            });
-            playlistSongsElement.style.listStyleType = 'none';
-            rightSidebar.appendChild(playlistSongsElement);
-        }
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
     <script>
         //show in the main element all the songs that match the search or if theres no search, show all the songs
         //by default show all the songs
@@ -223,20 +184,22 @@
                 songs.forEach((song) => {
                     const songElement = document.createElement('div');
                     songElement.classList.add('song_result');
+                    const songName = song.song_name;
                     songElement.innerHTML = `
                         <img src="${song.album_cover}" alt="${song.song_name}">
                         <div class="song-details">
                             <h3>${song.song_name}</h3>
                             <p>${song.artist}</p>
                         </div>
+                        <button class="add-to-playlist" onclick="addToPlaylist('${songName.replace(/'/g, "\\'")}')"><i class="fa-solid fa-plus"></i></button>
                     `;
-                    songElement.addEventListener('click', () => {
-                        showPlaylistDetail(song.album_cover, song.song_name, song.artist, [song.file]);
-                    });
                     results.appendChild(songElement);
                 });
             });
 
+        //for each song, search the metadata using jsmediatags
+        
+        
 
         function showResults() {
             const searchTerm = document.getElementById('search-bar').value;
@@ -250,21 +213,53 @@
                         if (song.song_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                             song.artist.toLowerCase().includes(searchTerm.toLowerCase())) {
                             const songElement = document.createElement('div');
-                            songElement.classList.add('song');
+                            const songName = song.song_name; // Asegúrate de que song_name exista y sea una cadena
+                            songElement.classList.add('song_result');
                             songElement.innerHTML = `
                                 <img src="${song.album_cover}" alt="${song.song_name}">
                                 <div class="song-details">
                                     <h2>${song.song_name}</h2>
                                     <p>${song.artist}</p>
                                 </div>
+                                <button class="add-to-playlist" onclick="addToPlaylist('${songName.replace(/'/g, "\\'")}')"><i class="fa-solid fa-plus"></i></button>
                             `;
-                            songElement.addEventListener('click', () => {
-                                showPlaylistDetail(song.album_cover, song.song_name, song.artist, [song.file]);
-                            });
                             results.appendChild(songElement);
                         }
                     });
                 });
+        }
+    </script>
+    <script>
+        function addToPlaylist(songName){
+            // Create a popup to select the playlist where the song will be added
+            const popup = document.createElement('div');
+            popup.id = 'add-to-playlist-popup';
+            popup.style.position = 'fixed';
+            popup.style.top = '0';
+            popup.style.left = '0';
+            fetch('playlists.json')
+                .then((response) => response.json())
+                .then((playlists) => {
+                    const popupForm = document.createElement('form');
+                    popupForm.id = 'add-to-playlist-form'
+                    popup.appendChild(popupForm);
+                    playlists.forEach((playlist) => {
+                        const playlistButton = document.createElement('button');
+                        const playlist_id = playlist.playlistId
+                        playlistButton.type = 'button';
+                        playlistButton.textContent = playlist.playlistName;
+                        playlistButton.addEventListener('click', () => {
+                            addSongToPlaylist(playlist_id, songName);
+                            popup.remove();
+                        });
+                        popupForm.appendChild(playlistButton);
+                    });
+                });
+        }
+
+        function addSongToPlaylist(playlist_id, songName) {
+            console.log("Playlist: ", playlist_id);
+            console.log("Song: ", songName);
         }
     </script>
 </body>
