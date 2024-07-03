@@ -14,7 +14,10 @@ html {
 }
 
 body {
-    background-color: rgb(228, 228, 228);
+    background-image: url("../img/blob.svg");
+    background-attachment: fixed;
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
     color: black;
     font-family: Arial, sans-serif;
     margin: 0;
@@ -22,7 +25,7 @@ body {
 }
 
 a {
-    color: deepskyblue;
+    color: black;
     text-decoration: none;
 }
 
@@ -44,67 +47,59 @@ a {
     transform: scale(1.2);
 }
 
-.card {
-  margin: 2%;
-  padding: 2%;
-  border: 2px solid deepskyblue;
-  border-radius: 15px;
-  background-color: white;
+#wip {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10%;
+    font-size: 5vh;
 }
 
 footer {
-    background-color: rgb(255, 252, 244);
+    background-color: rgb(255, 255, 255);
     color: black;
     text-align: center;
     padding: 2%;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 
-.main-projects h2 {
-  text-align: center;
-  width: 100%;
-} 
-
-.item-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
+footer span {
+  user-select: none;
+  -webkit-user-select: none;
+  cursor:default;
 }
 
-.item-card {
-  background-color: rgb(228, 228, 228);
-  padding: 20px;
-  text-align: center;
-  border: 2px solid deepskyblue;
-  border-radius: 15px;
-  transition: all ease 0.5s;
-}
+@media screen and (max-width: 600px) {
+    .contact-links {
+        display: flex;
+        justify-content: right;
+        margin-top: 2%;
+        margin-left: 2%;
+        margin-right: 2%;
+    }
 
-.item-card:hover {
-  transform: scale(1.09);
-}
+    body {
+        background-image: url("../img/blob_phone.svg");
+        background-attachment: fixed;
+        background-position: 0% 0%;
+        background-repeat: no-repeat;
+        color: black;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
 
-.item-card.blur {
-  filter: blur(2px);
-}
-
-.cursor {
-  animation: blink 1s infinite;
-}
-@keyframes blink {
-  50% { opacity: 0; }
-}
-
-.projects {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-}
-
-.project {
-  background-color: white;
-  padding: 20px;
-  text-align: center;
-  border: 2px solid deepskyblue;
-  border-radius: 15px;
-  transition: all ease 0.5s;
-  margin: 2%;
+    #wip {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10%;
+        font-size: 5vh;
+    }
 }

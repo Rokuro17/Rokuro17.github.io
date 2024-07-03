@@ -91,6 +91,7 @@
                         playlistImage.src = playlist.playlistImage;
                         playlistImage.alt = playlist.playlistId;
                         playlistImage.height = 50;
+                        playlistImage.style.borderRadius = '50%';
                         const playlistName = document.createElement('span');
                         playlistName.textContent = playlist.playlistName;
                         playlistDiv.appendChild(playlistImage);
