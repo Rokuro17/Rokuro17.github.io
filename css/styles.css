@@ -61,14 +61,8 @@ a {
     font-size: 5vh;
 }
 
-#wip h1 {
-    background: url("../img/layered_waves.svg") 0 0 / cover no-repeat;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-#wip h3 {
-    background: url("../img/layered_waves.svg") 0 0 / cover no-repeat;
+#wip h1, #wip h3 {
+    background: url("../img/layered.svg") 0 0 / cover no-repeat;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
