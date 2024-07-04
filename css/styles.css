@@ -14,14 +14,17 @@ html {
 }
 
 body {
-    background-image: url("../img/blob.svg");
+    background: url("../img/blob.svg") no-repeat center center fixed;
     background-attachment: fixed;
     background-position: 0% 0%;
-    background-repeat: no-repeat;
     color: black;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
 a {
@@ -83,7 +86,7 @@ footer span {
     }
 
     body {
-        background-image: url("../img/blob_phone.svg");
+        background: url("../img/blob_phone.svg") no-repeat center center fixed;
         background-attachment: fixed;
         background-position: 0% 0%;
         background-repeat: no-repeat;
