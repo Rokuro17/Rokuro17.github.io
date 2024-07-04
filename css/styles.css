@@ -61,13 +61,13 @@ a {
 }
 
 footer {
-    background-color: rgb(255, 255, 255);
     color: black;
     text-align: center;
     padding: 2%;
     position: fixed;
     bottom: 0;
     width: 100%;
+    backdrop-filter: blur(20px);
 }
 
 footer span {
@@ -104,5 +104,15 @@ footer span {
         justify-content: center;
         margin-top: 10%;
         font-size: 5vh;
+    }
+
+    footer {
+        color: black;
+        text-align: center;
+        padding: 2%;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        backdrop-filter: blur(20px);
     }
 }
